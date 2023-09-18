@@ -17,6 +17,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { WeatherService } from "./Service/weather.service";
 import { WidgetComponent } from './widget/widget.component';
+import { YourcityComponent } from './yourcity/yourcity.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { WidgetComponent } from './widget/widget.component';
     AppComponent,
     HeaderComponent,
     WidgetComponent,
+    YourcityComponent,
   ],
   imports: [
     BrowserModule,
