@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { CommonModule } from '@angular/common';
 
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -39,6 +39,7 @@ import { YourcityComponent } from './yourcity/yourcity.component';
     MatButtonModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
   ],
   providers: [WeatherService],
   bootstrap: [AppComponent]
