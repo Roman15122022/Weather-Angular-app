@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { WeatherService } from "../Service/weather.service";
+import {Component, OnInit} from '@angular/core';
+import {WeatherService} from "../services/weather.service";
 
 
 @Component({
@@ -10,12 +10,13 @@ import { WeatherService } from "../Service/weather.service";
 export class WidgetComponent {
   city!: string;
   weatherData: any;
-  constructor(private weatherService:WeatherService) {
-  }
-  getWeather(){
+
+  constructor(private weatherService: WeatherService) { }
+
+  getWeather() {
     this.weatherService.getWeather(this.city)
-      .subscribe(data=>{
-        this.weatherData=data;
+      .subscribe(data => {
+        this.weatherData = data;
         console.log(data);
       })
   }

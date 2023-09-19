@@ -1,14 +1,15 @@
 
-.spacer{
+.spacer {
   flex: 1 1 auto;
 }
-.darkMode{
+
+.darkMode {
   font-weight: lighter;
   font-size: 14px;
   margin-right: 10px;
 }
 
-.logo{
+.logo {
   font-size: 24px;
 }
 
