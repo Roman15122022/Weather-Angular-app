@@ -1,12 +1,11 @@
-
-export enum TimeOfDay {
-  Morning = 'morning',
-  Evening = 'evening',
-  Night = 'night',
-  Day = 'day',
+export enum PeriodOfDay {
+  MORNING = 'morning',
+  EVENING = 'evening',
+  NIGHT = 'night',
+  DAY = 'day',
 }
 
 export enum BlackOrWhite {
-  AfterWhite = 'afterWhite',
-  BeforeBlack = 'beforeBlack',
+  WHITE = 'afterWhite',
+  BLACK = 'afterBlack',
 }

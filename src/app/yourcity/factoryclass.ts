@@ -1,47 +1,38 @@
+import {BlackOrWhite, PeriodOfDay} from "./enums";
 
 
 export class BackgroundFactory {
-  private timeOfDay: string;
-  private BlackOrWhite: string;
+  private periodOfDay: PeriodOfDay;
+  private blackOrWhite: BlackOrWhite;
 
-  constructor(timeOfDay: string, BlackOrWhite: string) {
-    this.timeOfDay = timeOfDay;
-    this.BlackOrWhite = BlackOrWhite;
+  constructor(periodOfDay: PeriodOfDay, blackOrWhite: BlackOrWhite) {
+    this.periodOfDay = periodOfDay;
+    this.blackOrWhite = blackOrWhite;
   }
 
-  static createMorning(): BackgroundFactory {
-    return new BackgroundFactory('morning', 'afterBlack');
+  getPeriodOfDay(): PeriodOfDay {
+    return this.periodOfDay;
   }
 
-  static createDay(): BackgroundFactory {
-    return new BackgroundFactory('day', 'afterBlack');
+  getBlackOrWhite(): BlackOrWhite {
+    return this.blackOrWhite;
   }
+  static createBackground(hours: number): BackgroundFactory {
 
-  static createEvening(): BackgroundFactory {
-    return new BackgroundFactory('evening', 'afterWhite');
-  }
-
-  static createNight(): BackgroundFactory {
-    return new BackgroundFactory('night', 'afterWhite');
-  }
-  static createBackground(hours: number): { timeOfDay: string, BlackOrWhite: string } {
-    if (hours >= 5 && hours < 12) {
-      return { timeOfDay: 'morning', BlackOrWhite: 'afterBlack' };
-    } else if (hours >= 12 && hours < 19) {
-      return { timeOfDay: 'day', BlackOrWhite: 'afterBlack' };
-    } else if (hours >= 19 && hours < 22) {
-      return { timeOfDay: 'evening', BlackOrWhite: 'afterWhite' };
-    } else {
-      return { timeOfDay: 'night', BlackOrWhite: 'afterWhite' };
+    switch (true) {
+      case hours >= 5 && hours < 12:
+        return new BackgroundFactory(PeriodOfDay.MORNING, BlackOrWhite.BLACK)
+        break;
+      case hours >= 12 && hours < 19:
+        return new BackgroundFactory(PeriodOfDay.DAY, BlackOrWhite.BLACK )
+        break;
+      case hours >= 19 && hours < 22:
+        return new BackgroundFactory(PeriodOfDay.EVENING, BlackOrWhite.WHITE)
+        break;
+      default:
+        return new BackgroundFactory(PeriodOfDay.NIGHT, BlackOrWhite.WHITE )
+        break;
     }
-  }
-
-  getTimeOfDay(): string {
-    return this.timeOfDay;
-  }
-
-  getBlackOrWhite(): string {
-    return this.BlackOrWhite;
   }
 
 }

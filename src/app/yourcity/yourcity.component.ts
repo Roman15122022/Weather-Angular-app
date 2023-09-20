@@ -3,7 +3,7 @@ import {YourcityService} from "../services/yourcity.service";
 import {interval, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {BackgroundFactory} from "./factoryclass";
-import {BlackOrWhite, TimeOfDay} from "./enums";
+import {BlackOrWhite, PeriodOfDay} from "./enums";
 
 
 @Component({
@@ -16,8 +16,8 @@ export class YourcityComponent implements OnInit, OnDestroy {
   nameCity: string = '';
   temp: number = 0;
   weather: any;
-  timeOfDay: TimeOfDay =  TimeOfDay.Day;
-  BlackOrWhite: BlackOrWhite = BlackOrWhite.AfterWhite;
+  periodOfDay: PeriodOfDay =  PeriodOfDay.DAY;
+  blackOrWhite: BlackOrWhite = BlackOrWhite.WHITE;
   private geoSub: Subscription | null = null;
 
   constructor(private YourcityService: YourcityService) {
@@ -26,7 +26,7 @@ export class YourcityComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getLocation();
     interval(3000).subscribe(() => {
-      this.SetBackgroundBasedOnTime();
+      this.setBackgroundBasedOnTime();
     });
   }
 
@@ -51,12 +51,12 @@ export class YourcityComponent implements OnInit, OnDestroy {
     }
   }
 
-  SetBackgroundBasedOnTime() {
+  setBackgroundBasedOnTime() {
     const now = new Date();
     const hours = now.getHours();
-    const { timeOfDay, BlackOrWhite } = BackgroundFactory.createBackground(hours);
-    this.timeOfDay = timeOfDay as TimeOfDay;
-    this.BlackOrWhite = BlackOrWhite as BlackOrWhite;
+    const backgroundFactory = BackgroundFactory.createBackground(hours);
+    this.periodOfDay = backgroundFactory.getPeriodOfDay();
+    this.blackOrWhite = backgroundFactory.getBlackOrWhite();
   }
   ngOnDestroy() {
     if (this.geoSub) {
