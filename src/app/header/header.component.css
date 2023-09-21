@@ -1,0 +1,15 @@
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.darkMode {
+  font-weight: lighter;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.logo {
+  font-size: 24px;
+}
+

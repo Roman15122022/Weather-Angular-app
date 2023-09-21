@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { CommonModule } from '@angular/common';
 
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -15,8 +15,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
-import { WeatherService } from "./Service/weather.service";
+import { WeatherService } from "./services/weather.service";
 import { WidgetComponent } from './widget/widget.component';
+import { YourcityComponent } from './yourcity/yourcity.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { WidgetComponent } from './widget/widget.component';
     AppComponent,
     HeaderComponent,
     WidgetComponent,
+    YourcityComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,7 @@ import { WidgetComponent } from './widget/widget.component';
     MatButtonModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
   ],
   providers: [WeatherService],
   bootstrap: [AppComponent]

@@ -1,0 +1,102 @@
+
+.morning {
+  background: linear-gradient(to top, #FFC0CB, #87CEEB);
+  color: black;
+  padding-bottom: 10%;
+}
+
+.day {
+  background: linear-gradient(to top, #41a8d5, #FFFFFF);
+  color: black;
+  padding-bottom: 10%;
+
+}
+
+.evening {
+  background: linear-gradient(to top, #FFA500, #800080);
+  color: white;
+  padding-bottom: 10%;
+}
+
+.night {
+  background: linear-gradient(to top, #000080, #000);
+  color: white;
+  padding-bottom: 10%;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 25% 0 25%;
+
+}
+
+.city {
+  text-transform: uppercase;
+  position: relative;
+}
+
+.afterBlack {
+  content: "";
+  display: block;
+  width: 75%;
+  margin: 0 auto;
+  height: 3px;
+  background-color: black;
+}
+
+.afterWhite {
+  content: "";
+  display: block;
+  width: 75%;
+  margin: 0 auto;
+  height: 3px;
+  background-color: white;
+}
+
+.temp {
+  padding-left: 18px;
+  font-size: 48px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.desc {
+  margin-top: 20%;
+  text-transform: uppercase;
+  font-size: 12px;
+  text-align: center;
+  opacity: 70%;
+  font-weight: 600;
+}
+
+.left__block {
+  margin-top: 22%;
+  align-items: center;
+}
+
+.con {
+  display: flex;
+  margin-top: 20%;
+  justify-content: flex-start;
+  margin-right: 20%;
+}
+
+.hum {
+  text-transform: uppercase;
+  opacity: 70%;
+  font-weight: 600;
+  font-size: 10px;
+  padding-right: 2.5rem;
+}
+
+.wind {
+  white-space: nowrap;
+  text-transform: uppercase;
+  opacity: 70%;
+  font-weight: 600;
+  font-size: 10px;
+  padding-left: 2.5rem;
+  border-left: 2px solid;
+}
