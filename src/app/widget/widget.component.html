@@ -1,14 +1,60 @@
-<div class="widget">
-  <h1>Weather Application</h1>
+<div>
+  <mat-toolbar class="mat-elevation-z8">
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="logo">Weather</span>
+    <span class="spacer"> </span>
+    <div class="darkMode">
+      LIGHT
+      <mat-slide-toggle></mat-slide-toggle>
+      DARK
+    </div>
+  </mat-toolbar>
 
-  <form>
-    <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="city">
-    <button type="button" (click)="getWeather()">Get Weather</button>
-  </form>
+  <mat-drawer-container>
+    <mat-drawer #drawer opened="false" mode="side">
+      <mat-nav-list>
+        <mat-list-item>
+          <button routerLink="/home" mat-button>
+            <mat-icon>home</mat-icon>
+            Home
+          </button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="/widgets" mat-button>
+            <mat-icon>analytics</mat-icon>
+            Widgets
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
 
-  <div *ngIf="weatherData">
-    <h2>{{weatherData.name}}</h2>
-    <p>Temperature: {{weatherData.main.temp}}</p>
-    <p>Weather: {{weatherData.weather[0].description}}</p>
-  </div>
+    <mat-drawer-content>
+      <div class="container">
+        <div class="widget">
+          <div *ngIf="kyivData">
+            <h2>{{kyivData.name}}</h2>
+            <p>Temperature: {{kyivData.main.temp}}</p>
+            <p>Weather: {{kyivData.weather[0].description}}</p>
+          </div>
+        </div>
+        <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
+          <form>
+            <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.city">
+            <button type="button" (click)="getWeather(i)">Get Weather</button>
+          </form>
+
+          <div *ngIf="widget.weatherData">
+            <h2>{{widget.weatherData.name}}</h2>
+            <p>Temperature: {{widget.weatherData.main.temp}}</p>
+            <p>Weather: {{widget.weatherData.weather[0].description}}</p>
+          </div>
+        </div>
+
+      </div>
+
+    </mat-drawer-content>
+
+  </mat-drawer-container>
 </div>

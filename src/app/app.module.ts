@@ -18,6 +18,7 @@ import { FormsModule } from "@angular/forms";
 import { WeatherService } from "./services/weather.service";
 import { WidgetComponent } from './widget/widget.component';
 import { YourcityComponent } from './yourcity/yourcity.component';
+import { AppRoutingModule } from './routing/app-routing.module';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { YourcityComponent } from './yourcity/yourcity.component';
     HttpClientModule,
     FormsModule,
     CommonModule,
+    AppRoutingModule,
   ],
   providers: [WeatherService],
   bootstrap: [AppComponent]

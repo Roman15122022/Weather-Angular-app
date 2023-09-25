@@ -6,7 +6,9 @@
     <span class="logo">Weather</span>
     <span class="spacer"> </span>
     <div class="darkMode">
-      LIGHT <mat-slide-toggle></mat-slide-toggle> DARK
+      LIGHT
+      <mat-slide-toggle></mat-slide-toggle>
+      DARK
     </div>
   </mat-toolbar>
 
@@ -14,10 +16,16 @@
     <mat-drawer #drawer opened="false" mode="side">
       <mat-nav-list>
         <mat-list-item>
-          <button mat-button><mat-icon>home</mat-icon>Home</button>
+          <button routerLink="/home" mat-button>
+            <mat-icon>home</mat-icon>
+            Home
+          </button>
         </mat-list-item>
         <mat-list-item>
-          <button mat-button><mat-icon>analytics</mat-icon>Weather</button>
+          <button routerLink="/widgets" mat-button>
+            <mat-icon>analytics</mat-icon>
+            Widgets
+          </button>
         </mat-list-item>
       </mat-nav-list>
     </mat-drawer>
