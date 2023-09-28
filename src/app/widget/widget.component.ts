@@ -11,12 +11,6 @@ import {WeatherWidget} from "./weatherwidget";
   styleUrls: ['./widget.component.css']
 })
 export class WidgetComponent implements OnInit {
-  srcRain: string = '../../assets/icon_weather/rain.png'
-  srcClouds: string = '../../assets/icon_weather/clouds.png'
-  srcSnow: string = '../../assets/icon_weather/snow.png'
-  srcSun: string = '../../assets/icon_weather/sun.png'
-  srcSunClouds: string = '../../assets/icon_weather/sunwclouds.png'
-  srcThunderstorm: string = '../../assets/icon_weather/thunderstorm.png'
   weatherWidgets: WeatherWidget[] = [
     {city: '', weatherData: null},
     {city: '', weatherData: null},

@@ -1,0 +1,37 @@
+<mat-toolbar class="mat-toolbar mat-elevation-z8 mat-toolbar-single-row">
+  <button (click)="drawer.toggle()" mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="logo">Weather</span>
+  <span class="spacer"> </span>
+  <div class="darkMode">
+    LIGHT
+    <mat-slide-toggle></mat-slide-toggle>
+    DARK
+  </div>
+</mat-toolbar>
+
+<mat-drawer-container>
+  <mat-drawer #drawer opened="false" mode="over">
+    <mat-nav-list>
+      <mat-list-item>
+        <a routerLink="/home" routerLinkActive="active" mat-button>
+          <mat-icon>home</mat-icon>
+          Home
+        </a>
+      </mat-list-item>
+      <mat-list-item>
+        <a routerLink="/widgets" routerLinkActive="active" mat-button>
+          <mat-icon>analytics</mat-icon>
+          Widgets
+        </a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
