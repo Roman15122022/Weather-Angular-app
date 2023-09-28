@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WeatherService } from "../services/weather.service";
 import { interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Weatherdata } from "../interfaces/weatherdata";
-import {WeatherWidget} from "./weatherwidget";
+import { WeatherWidget } from "./weatherwidget";
 
 @Component({
   selector: 'app-widget',
@@ -18,6 +17,7 @@ export class WidgetComponent implements OnInit{
   ];
   kyiv: string = 'Kyiv';
   kyivData: any;
+  kyivTemp: number = 0;
 
   constructor(private weatherService: WeatherService) { }
 
@@ -30,6 +30,8 @@ export class WidgetComponent implements OnInit{
         switchMap(() => this.weatherService.getWeather(this.kyiv))
       ).subscribe( data => {
         this.kyivData = data;
+        this.kyivTemp = Math.round(data.main.temp);
+
         console.log(data)
     })
   }
