@@ -1,11 +1,17 @@
 <div class="container">
 
   <div class="widget">
-    <div *ngIf="kyivData">
-      <h2 class="cityName">{{kyivData.name}}</h2>
-      <div class="background"></div>
+    <div>
+      <h2 class="cityName">{{kyivData.name | uppercase}}</h2>
+      <div>
+        <img class="icon" [src]="srcSunClouds" alt="">
+      </div>
       <p class="temp">{{kyivTemp}}°</p>
       <p>{{kyivData.weather[0].description | uppercase}}</p>
+      <div class="minmax">
+        <div class="min">{{kyivMinTemp}}</div>
+        <div class="max">{{kyivMaxTemp}}</div>
+      </div>
     </div>
   </div>
 
@@ -19,6 +25,10 @@
       <h2>{{widget.weatherData.name}}</h2>
       <p>{{widget.weatherData.main.temp}}</p>
       <p>Weather: {{widget.weatherData.weather[0].description}}</p>
+      <div class="minmax">
+        <div class="min">{{widget.weatherData.main.temp_min}}</div>
+        <div class="max">{{widget.weatherData.main.temp_max}}</div>
+      </div>
     </div>
   </div>
 

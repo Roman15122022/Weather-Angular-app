@@ -11,28 +11,36 @@
 .logo {
   font-size: 24px;
 }
-.widget{
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 8% 10% 0 10%;
+}
+
+.widget {
   text-align: center;
+  align-items: center;
   min-height: 600px;
 }
 
-.container{
-  display: flex;
-  justify-content: space-between;
-  margin: 8% 7% 0 7%;
-}
 
-.cityName{
+.cityName {
   font-size: 16px;
+  color: black;
+}
+.icon{
+  transform: scale(160%);
 }
 
-.temp{
+.temp {
+  margin-top: 30px;
   font-size: 36px;
   font-weight: 400;
 }
-.background{
-  background: url("1.png");
-  background-size: cover;
-  height: 50px;
-  width: 50px;
+.minmax{
+  font-size: 20px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
 }

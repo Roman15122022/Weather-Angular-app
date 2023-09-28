@@ -1,4 +1,4 @@
-export class WeatherWidget {
-  city: string = '';
+export interface WeatherWidget {
+  city: string;
   weatherData: any;
 }
