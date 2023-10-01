@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { YourCityService } from "../services/yourcity.service";
-import { interval, Subscription } from 'rxjs';
+import {interval, startWith, Subscription} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BackgroundFactory } from "./factoryclass";
 import { BlackOrWhite, PeriodOfDay } from "./enums";
@@ -26,6 +26,7 @@ export class YourCityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getLocation();
+    this.setBackgroundBasedOnTime();
     interval(3000).subscribe(() => {
       this.setBackgroundBasedOnTime();
     });
@@ -38,6 +39,7 @@ export class YourCityComponent implements OnInit, OnDestroy {
 
         this.geoSub = interval(3000).
         pipe(
+          startWith(0),
           switchMap(() => this.yourCityService.getNameByCoords(latitude, longitude))
         )
           .subscribe((data) => {

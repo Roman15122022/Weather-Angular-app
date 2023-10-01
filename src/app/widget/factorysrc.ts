@@ -23,7 +23,8 @@ export class Factorysrc {
       case this.kyivDataDescription === 'scattered clouds':
         return Icon.SCATTERRED;
         break;
-      case this.kyivDataDescription === 'broken clouds' || 'overcast clouds':
+      case this.kyivDataDescription === 'broken clouds'
+      || this.kyivDataDescription === 'overcast clouds':
         return Icon.BROKEN;
         break;
       case this.kyivDataMain === 'Clear' && this.dayNight:
@@ -38,8 +39,10 @@ export class Factorysrc {
       case this.kyivDataMain === 'Drizzle':
         return Icon.SHOWER;
         break;
-      case this.kyivDataDescription === 'light intensity shower rain' || 'shower rain'
-        || 'heavy intensity shower rain' || 'ragged shower rain':
+      case this.kyivDataDescription === 'light intensity shower rain'
+      || this.kyivDataDescription === 'shower rain'
+      || this.kyivDataDescription === 'heavy intensity shower rain'
+      ||this.kyivDataDescription === 'ragged shower rain':
         return Icon.SHOWER;
         break;
       case this.kyivDataMain === 'Rain' && this.dayNight:
