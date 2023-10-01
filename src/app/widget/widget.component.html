@@ -5,7 +5,7 @@
       <div>
         <h2 class="cityName">{{kyivData.name | uppercase}}</h2>
         <div>
-          <img class="icon" src="../../assets/icon_weather/clouds.png" alt="">
+          <img class="icon" [src]="srcKyiv" alt="">
         </div>
         <p class="temp">{{kyivTemp}}°</p>
         <p>{{kyivData.weather[0].description | uppercase}}</p>

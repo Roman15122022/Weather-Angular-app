@@ -19,6 +19,9 @@ import { WidgetComponent } from './widget/widget.component';
 import { YourCityComponent } from './yourcity/yourcity.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutSiteComponent } from './layoutsite/layoutsite.component';
+import {Factorysrc} from "./widget/factorysrc";
+import {FactoryDaynight} from "./widget/factory-daynight";
+
 
 
 @NgModule({
@@ -43,7 +46,11 @@ import { LayoutSiteComponent } from './layoutsite/layoutsite.component';
     CommonModule,
     AppRoutingModule,
   ],
-  providers: [WeatherService],
+  providers: [
+    WeatherService,
+    Factorysrc,
+    FactoryDaynight
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

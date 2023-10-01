@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {WeatherService} from "../services/weather.service";
 import {interval} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {WeatherWidget} from "./weatherwidget";
+import {WeatherWidget} from "../interfaces/weatherwidget";
+import {Factorysrc} from "./factorysrc";
+import {Icon} from "./enum.icon";
 
 
 @Component({
@@ -20,12 +22,16 @@ export class WidgetComponent implements OnInit {
   kyivTemp: number = 0;
   kyivMaxTemp: number = 0;
   kyivMinTemp: number = 0;
+  srcKyiv: Icon = Icon.DEFAULT;
 
-  constructor(private weatherService: WeatherService) {
+  constructor(private weatherService: WeatherService, private factorySrc: Factorysrc) {
   }
 
   ngOnInit() {
     this.getKyiv()
+    interval(3000).subscribe(() => {
+      this.getIcon();
+    });
   }
 
   getKyiv() {
@@ -41,6 +47,11 @@ export class WidgetComponent implements OnInit {
 
       console.log(data)
     })
+    return this.kyivData;
+  }
+
+  getIcon() {
+   this.srcKyiv = this.factorySrc.settingIconBasedOnTimeAndWeather(this.kyivData);
   }
 
   getWeather(index: number) {

@@ -1,6 +1,9 @@
 export interface Weatherdata {
   temperature: number;
-  description: string;
+  weather:{
+    main: string;
+    description: string;
+  }
   main: {
     temp: number;
     temp_max: number;
