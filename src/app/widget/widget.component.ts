@@ -14,44 +14,27 @@ import {Icon} from "./enum.icon";
 })
 export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
-    {city: '', weatherData: null},
-    {city: '', weatherData: null},
+    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT},
+    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT},
+    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT},
   ];
-  kyivData: any;
-  kyivTemp: number = 0;
-  kyivMaxTemp: number = 0;
-  kyivMinTemp: number = 0;
-  srcKyiv: Icon = Icon.DEFAULT;
+  formStates: { [key: string]: boolean } = {};
 
   constructor(private weatherService: WeatherService, private factorySrc: Factorysrc) {
   }
 
   ngOnInit() {
-    this.getCityWeather('Kyiv');
     interval(3000).subscribe(() => {
       this.getIcon();
     });
   }
 
-  getCityWeather(city: string) {
-    interval(3000)
-      .pipe(
-        startWith(0),
-        switchMap(() => this.weatherService.getWeather(city))
-      ).subscribe(data => {
-      this.kyivData = data;
-      this.kyivTemp = Math.round(data.main.temp);
-      this.kyivMaxTemp = Math.round(data.main.temp_max);
-      this.kyivMinTemp = Math.round(data.main.temp_min);
-
-
-      console.log(data)
-    })
-    return this.kyivData;
-  }
-
   getIcon() {
-   this.srcKyiv = this.factorySrc.settingIconBasedOnTimeAndWeather(this.kyivData);
+    this.weatherWidgets.forEach((widget, index) => {
+      if (widget.weatherData) {
+        widget.IconSrc = this.factorySrc.settingIconBasedOnTimeAndWeather(widget.weatherData);
+      }
+    });
   }
 
   getWeather(index: number) {
@@ -63,8 +46,13 @@ export class WidgetComponent implements OnInit {
       )
       .subscribe(data => {
         widget.weatherData = data;
+        widget.cityTemp = Math.round(data.main.temp);
+        widget.cityMinTemp = Math.round(data.main.temp_min);
+        widget.cityMaxTemp = Math.round(data.main.temp_max);
+
         console.log(data);
       });
+    this.formStates[widget.city] = true;
   }
 
 

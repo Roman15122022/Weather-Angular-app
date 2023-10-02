@@ -1,42 +1,30 @@
 <div class="con">
   <div class="container">
 
-    <div *ngIf="kyivData" class="widget">
-      <div>
-        <h2 class="cityName">{{kyivData.name | uppercase}}</h2>
-        <div>
-          <img class="icon" [src]="srcKyiv" alt="">
-        </div>
-        <p class="temp">{{kyivTemp}}°</p>
-        <p>{{kyivData.weather[0].description | uppercase}}</p>
-        <div class="min_max">
-          <div class="case">
-            <div class="triangle_down">▼</div>
-            <div class="min_max__temp">{{kyivMinTemp}}</div>
-            <div class="min__text">Min</div>
-          </div>
-          <div class="case">
-            <div class="triangle_up">▲</div>
-            <div class="min_max__temp">{{kyivMaxTemp}}</div>
-            <div class="max__text">Max</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="widgets" *ngFor="let widget of weatherWidgets; let i = index">
-      <form>
+    <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
+      <form *ngIf="!formStates[widget.city]">
         <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.city">
         <button type="button" (click)="getWeather(i)">Get Weather</button>
       </form>
 
       <div *ngIf="widget.weatherData">
-        <h2>{{widget.weatherData.name}}</h2>
-        <p>{{widget.weatherData.main.temp}}</p>
-        <p>Weather: {{widget.weatherData.weather[0].description}}</p>
-        <div class="minmax">
-          <div class="min">{{widget.weatherData.main.temp_min}}</div>
-          <div class="max">{{widget.weatherData.main.temp_max}}</div>
+        <h2 class="cityName">{{widget.weatherData.name | uppercase}}</h2>
+        <div>
+          <img class="icon"[src]="widget.IconSrc" alt="">
+        </div>
+        <div class="temp">{{widget.cityTemp}}°</div>
+        <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
+        <div class="min_max">
+          <div class="case">
+            <div class="triangle_down">▼</div>
+            <div class="min_max__temp">{{widget.cityMinTemp}}</div>
+            <div class="min__text">Min</div>
+          </div>
+          <div class="case">
+            <div class="triangle_up">▲</div>
+            <div class="min_max__temp">{{widget.cityMaxTemp}}</div>
+            <div class="max__text">Max</div>
+          </div>
         </div>
       </div>
     </div>

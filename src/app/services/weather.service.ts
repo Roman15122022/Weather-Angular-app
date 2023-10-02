@@ -9,7 +9,6 @@ import {Observable} from "rxjs";
 })
 export class WeatherService {
   weatherlocation: Weatherlocation = {
-    city: 'Kyiv',
     apiKey: '2ee8f37454331bd4d00bb4271506044d',
     data: ''
   };
