@@ -11,5 +11,4 @@ export enum Icon {
  THUNDERSTORM = '../../assets/icon_weather/thunderstorm.png',
  SNOW = '../../assets/icon_weather/snow.png',
  DEFAULT = '../../assets/icon_weather/default.png',
-
 }

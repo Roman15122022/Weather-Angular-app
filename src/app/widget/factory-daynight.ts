@@ -1,23 +1,10 @@
-import {Daynight} from "../interfaces/daynight";
 import {Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class FactoryDaynight{
-  daynight : Daynight;
-  constructor() {
-    this.daynight = {
-      hours: 0,
-      now : new Date(),
-      dayTime : 6,
-      nightTime : 18,
-    }
-    this.daynight.hours = this.daynight.now.getHours();
-
-  }
-  isDayTime() {
-    return (
-      this.daynight.hours >= this.daynight.dayTime &&
-      this.daynight.hours < this.daynight.nightTime
-    );
+  setTimeZone(timezone:number): boolean{
+    const now = new Date();
+    const currentHour = now.getUTCHours() + timezone / 3600;
+    return currentHour >= 6 && currentHour < 18;
   }
 }

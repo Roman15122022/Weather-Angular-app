@@ -1,5 +1,5 @@
 export interface Weatherdata {
-  temperature: number;
+  timezone: number;
   weather:{
     main: string;
     description: string;

@@ -4,6 +4,7 @@ import {interval, startWith} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {WeatherWidget} from "../interfaces/weatherwidget";
 import {Factorysrc} from "./factorysrc";
+import {FactoryDaynight} from "./factory-daynight";
 import {Icon} from "./enum.icon";
 
 
@@ -14,25 +15,43 @@ import {Icon} from "./enum.icon";
 })
 export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
-    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT},
-    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT},
-    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT},
+    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT,
+      TimeZone: 0, weather: [
+        {description: '', main: ''}
+      ]
+    },
+
+    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT,
+      TimeZone: 0, weather: [
+        {description: '', main: ''}
+      ]
+    },
+
+    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT,
+      TimeZone: 0, weather: [
+        {description: '', main: ''}
+      ]
+    },
   ];
   formStates: { [key: string]: boolean } = {};
 
-  constructor(private weatherService: WeatherService, private factorySrc: Factorysrc) {
+
+  constructor(private weatherService: WeatherService,
+              private factorySrc: Factorysrc,
+              private factoryDayNight: FactoryDaynight,
+  ) {
   }
 
   ngOnInit() {
     interval(3000).subscribe(() => {
-      this.getIcon();
+      this.putIcon();
     });
   }
 
-  getIcon() {
+  putIcon() {
     this.weatherWidgets.forEach((widget, index) => {
       if (widget.weatherData) {
-        widget.IconSrc = this.factorySrc.settingIconBasedOnTimeAndWeather(widget.weatherData);
+        widget.IconSrc = this.factorySrc.settingIconBasedOnTimeAndWeather(widget.weatherData, widget.TimeZone);
       }
     });
   }
@@ -49,12 +68,14 @@ export class WidgetComponent implements OnInit {
         widget.cityTemp = Math.round(data.main.temp);
         widget.cityMinTemp = Math.round(data.main.temp_min);
         widget.cityMaxTemp = Math.round(data.main.temp_max);
+        widget.TimeZone = data.timezone;
+
+        this.factoryDayNight.setTimeZone(data.timezone);
 
         console.log(data);
       });
     this.formStates[widget.city] = true;
   }
-
 
 }
 

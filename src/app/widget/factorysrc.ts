@@ -2,62 +2,63 @@ import {Icon} from "./enum.icon";
 import {WeatherService} from "../services/weather.service";
 import {FactoryDaynight} from "./factory-daynight";
 import {Injectable} from "@angular/core";
+import {WeatherWidget} from "../interfaces/weatherwidget"
 
-@Injectable()
+@Injectable({ providedIn: 'root'})
 export class Factorysrc {
-  kyivDataMain: any;
-  kyivDataDescription: any;
+  cityDataMain: string = '';
+  cityDataDescription: string = '';
   dayNight: boolean = true;
-
 
   constructor(
     private weatherService: WeatherService,
     private factoryDaynight: FactoryDaynight
   ) {}
-
-  settingIconBasedOnTimeAndWeather(kyivData: any):Icon {
-    this.kyivDataDescription = kyivData.weather[0].description;
-    this.kyivDataMain = kyivData.weather[0].main;
-    this.dayNight = this.factoryDaynight.isDayTime();
+  settingIconBasedOnTimeAndWeather(cityData: WeatherWidget, timezone:number ):Icon {
+    this.cityDataDescription = cityData.weather[0].description;
+    this.cityDataMain = cityData.weather[0].main;
+    this.dayNight = this.factoryDaynight.setTimeZone(timezone);
+   /* console.log(timezone);
+    console.log(this.dayNight);*/
     switch (true) {
-      case this.kyivDataDescription === 'scattered clouds':
+      case this.cityDataDescription === 'scattered clouds':
         return Icon.SCATTERRED;
         break;
-      case this.kyivDataDescription === 'broken clouds'
-      || this.kyivDataDescription === 'overcast clouds':
+      case this.cityDataDescription === 'broken clouds'
+      || this.cityDataDescription === 'overcast clouds':
         return Icon.BROKEN;
         break;
-      case this.kyivDataMain === 'Clear' && this.dayNight:
+      case this.cityDataMain === 'Clear' && this.dayNight:
         return Icon.CLEARSKYDAY;
         break;
-      case this.kyivDataMain === 'Clear' && !this.dayNight:
+      case this.cityDataMain === 'Clear' && !this.dayNight:
         return Icon.CLEARSKYNIGHT;
         break;
-      case this.kyivDataMain === 'Thunderstorm':
+      case this.cityDataMain === 'Thunderstorm':
         return Icon.THUNDERSTORM;
         break;
-      case this.kyivDataMain === 'Drizzle':
+      case this.cityDataMain === 'Drizzle':
         return Icon.SHOWER;
         break;
-      case this.kyivDataDescription === 'light intensity shower rain'
-      || this.kyivDataDescription === 'shower rain'
-      || this.kyivDataDescription === 'heavy intensity shower rain'
-      ||this.kyivDataDescription === 'ragged shower rain':
+      case this.cityDataDescription === 'light intensity shower rain'
+      || this.cityDataDescription === 'shower rain'
+      || this.cityDataDescription === 'heavy intensity shower rain'
+      ||this.cityDataDescription === 'ragged shower rain':
         return Icon.SHOWER;
         break;
-      case this.kyivDataMain === 'Rain' && this.dayNight:
+      case this.cityDataMain === 'Rain' && this.dayNight:
         return Icon.RAINDAY;
         break;
-      case this.kyivDataMain === 'Rain' && !this.dayNight:
+      case this.cityDataMain === 'Rain' && !this.dayNight:
         return Icon.RAINNIGHT;
         break;
-      case this.kyivDataMain === 'Snow' || this.kyivDataDescription === 'freezing rain':
+      case this.cityDataMain === 'Snow' || this.cityDataDescription === 'freezing rain':
         return Icon.SNOW;
         break;
-      case this.kyivDataDescription === 'few clouds' && this.dayNight:
+      case this.cityDataDescription === 'few clouds' && this.dayNight:
         return Icon.FEWCLOUDSDAY;
         break;
-      case this.kyivDataDescription === 'few clouds' && !this.dayNight:
+      case this.cityDataDescription === 'few clouds' && !this.dayNight:
         return Icon.FEWCLOUDSNIGHT;
         break;
       default:

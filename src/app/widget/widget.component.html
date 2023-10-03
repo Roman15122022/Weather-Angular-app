@@ -2,6 +2,8 @@
   <div class="container">
 
     <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
+      <div class="addCity" *ngIf="!formStates[widget.city]">Add city</div>
+      <!--<button>+</button>-->
       <form *ngIf="!formStates[widget.city]">
         <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.city">
         <button type="button" (click)="getWeather(i)">Get Weather</button>

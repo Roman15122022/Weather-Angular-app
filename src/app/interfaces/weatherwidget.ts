@@ -7,4 +7,10 @@ export interface WeatherWidget {
   cityMaxTemp: number;
   cityMinTemp: number;
   IconSrc: Icon;
+  TimeZone: number;
+  weather: WeatherData[];
+}
+export interface WeatherData {
+  description: string;
+  main: string;
 }
