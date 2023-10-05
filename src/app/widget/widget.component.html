@@ -1,14 +1,36 @@
-<div class="widget">
-  <h1>Weather Application</h1>
+<div class="con">
+  <div class="container">
 
-  <form>
-    <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="city">
-    <button type="button" (click)="getWeather()">Get Weather</button>
-  </form>
+    <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
+      <div class="addCity" *ngIf="!formStates[widget.city]">Add city</div>
+      <!--<button>+</button>-->
+      <form *ngIf="!formStates[widget.city]">
+        <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.city">
+        <button type="button" (click)="getWeather(i)">Get Weather</button>
+      </form>
 
-  <div *ngIf="weatherData">
-    <h2>{{weatherData.name}}</h2>
-    <p>Temperature: {{weatherData.main.temp}}</p>
-    <p>Weather: {{weatherData.weather[0].description}}</p>
+      <div *ngIf="widget.weatherData">
+        <h2 class="cityName">{{widget.weatherData.name | uppercase}}</h2>
+        <div>
+          <img class="icon"[src]="widget.IconSrc" alt="">
+        </div>
+        <div class="temp">{{widget.cityTemp}}°</div>
+        <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
+        <div class="min_max">
+          <div class="case">
+            <div class="triangle_down">▼</div>
+            <div class="min_max__temp">{{widget.cityMinTemp}}</div>
+            <div class="min__text">Min</div>
+          </div>
+          <div class="case">
+            <div class="triangle_up">▲</div>
+            <div class="min_max__temp">{{widget.cityMaxTemp}}</div>
+            <div class="max__text">Max</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </div>

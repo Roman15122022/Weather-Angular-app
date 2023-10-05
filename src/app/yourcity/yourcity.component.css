@@ -2,26 +2,26 @@
 .morning {
   background: linear-gradient(to top, #FFC0CB, #87CEEB);
   color: black;
-  padding-bottom: 10%;
+  padding-bottom: 50%;
 }
 
 .day {
   background: linear-gradient(to top, #41a8d5, #FFFFFF);
   color: black;
-  padding-bottom: 10%;
+  padding-bottom: 50%;
 
 }
 
 .evening {
   background: linear-gradient(to top, #FFA500, #800080);
   color: white;
-  padding-bottom: 10%;
+  padding-bottom: 50%;
 }
 
 .night {
   background: linear-gradient(to top, #000080, #000);
   color: white;
-  padding-bottom: 10%;
+  padding-bottom: 50%;
 }
 
 .container {
@@ -56,19 +56,19 @@
 }
 
 .temp {
-  padding-left: 18px;
-  font-size: 48px;
-  font-weight: bolder;
+  padding-left: 50px;
+  font-size: 70px;
+  font-weight: 400;
   text-align: center;
 }
 
 .desc {
   margin-top: 20%;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 15px;
+  font-weight: 400;
   text-align: center;
   opacity: 70%;
-  font-weight: 600;
 }
 
 .left__block {
@@ -78,7 +78,7 @@
 
 .con {
   display: flex;
-  margin-top: 20%;
+  margin-top: 15%;
   justify-content: flex-start;
   margin-right: 20%;
 }
@@ -86,7 +86,7 @@
 .hum {
   text-transform: uppercase;
   opacity: 70%;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 10px;
   padding-right: 2.5rem;
 }
@@ -95,8 +95,8 @@
   white-space: nowrap;
   text-transform: uppercase;
   opacity: 70%;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 10px;
   padding-left: 2.5rem;
-  border-left: 2px solid;
+  border-left: 1px solid;
 }
