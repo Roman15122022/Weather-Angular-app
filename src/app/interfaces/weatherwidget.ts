@@ -1,4 +1,4 @@
-import {Icon} from "../widget/enum.icon";
+import { Icon } from "../widget/enum.icon";
 
 export interface WeatherWidget {
   city: string;
@@ -10,6 +10,7 @@ export interface WeatherWidget {
   TimeZone: number;
   weather: WeatherData[];
 }
+
 export interface WeatherData {
   description: string;
   main: string;

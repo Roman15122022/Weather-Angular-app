@@ -1,64 +1,74 @@
-import {Icon} from "./enum.icon";
-import {WeatherService} from "../services/weather.service";
-import {FactoryDaynight} from "./factory-daynight";
-import {Injectable} from "@angular/core";
-import {WeatherWidget} from "../interfaces/weatherwidget"
+import { Icon } from "./enum.icon";
 
-@Injectable({ providedIn: 'root'})
-export class Factorysrc {
-  cityDataMain: string = '';
-  cityDataDescription: string = '';
-  dayNight: boolean = true;
+import { WeatherWidget } from "../interfaces/weatherwidget";
 
-  constructor(
-    private weatherService: WeatherService,
-    private factoryDaynight: FactoryDaynight
-  ) {}
-  settingIconBasedOnTimeAndWeather(cityData: WeatherWidget, timezone:number ):Icon {
-    this.cityDataDescription = cityData.weather[0].description;
-    this.cityDataMain = cityData.weather[0].main;
-    this.dayNight = this.factoryDaynight.setTimeZone(timezone);
-   /* console.log(timezone);
-    console.log(this.dayNight);*/
+
+export class FactoryIcons {
+  icon = "";
+
+  constructor(icon: string) {
+    this.icon = icon;
+  }
+
+  static createIcon({ weather }: WeatherWidget, dayNight: boolean): FactoryIcons {
+    const cityDataDescription = weather[0].description;
+    const cityDataMain = weather[0].main;
     switch (true) {
-      case this.cityDataDescription === 'scattered clouds':
+      case cityDataDescription === "scattered clouds":
+        return new FactoryIcons(Icon.SCATTERRED);
+
+      default:
+        return new FactoryIcons(Icon.DEFAULT);
+    }
+  }
+
+
+  settingIconBasedOnTimeAndWeather({ weather }: WeatherWidget, dayNight: boolean): Icon {
+    const cityDataDescription = weather[0].description;
+    this.cityDataDescription = weather[0].description;
+    this.cityDataMain = weather[0].main;
+    this.dayNight = dayNight;
+    /* console.log(timezone);
+     console.log(this.dayNight);*/
+    switch (true) {
+      case this.cityDataDescription === "scattered clouds":
         return Icon.SCATTERRED;
         break;
-      case this.cityDataDescription === 'broken clouds'
-      || this.cityDataDescription === 'overcast clouds':
+      case this.cityDataDescription === "broken clouds"
+      || this.cityDataDescription === "overcast clouds":
         return Icon.BROKEN;
         break;
-      case this.cityDataMain === 'Clear' && this.dayNight:
+      case this.cityDataMain === "Clear" && this.dayNight:
         return Icon.CLEARSKYDAY;
         break;
-      case this.cityDataMain === 'Clear' && !this.dayNight:
+      case this.cityDataMain === "Clear" && !this.dayNight:
         return Icon.CLEARSKYNIGHT;
         break;
-      case this.cityDataMain === 'Thunderstorm':
+      case this.cityDataMain === "Thunderstorm":
         return Icon.THUNDERSTORM;
         break;
-      case this.cityDataMain === 'Drizzle':
+      case this.cityDataMain === "Drizzle":
         return Icon.SHOWER;
         break;
-      case this.cityDataDescription === 'light intensity shower rain'
-      || this.cityDataDescription === 'shower rain'
-      || this.cityDataDescription === 'heavy intensity shower rain'
-      ||this.cityDataDescription === 'ragged shower rain':
+      case this.cityDataDescription === "light intensity shower rain"
+      || this.cityDataDescription === "shower rain"
+      || this.cityDataDescription === "heavy intensity shower rain"
+      || this.cityDataDescription === "ragged shower rain":
         return Icon.SHOWER;
         break;
-      case this.cityDataMain === 'Rain' && this.dayNight:
+      case this.cityDataMain === "Rain" && this.dayNight:
         return Icon.RAINDAY;
         break;
-      case this.cityDataMain === 'Rain' && !this.dayNight:
+      case this.cityDataMain === "Rain" && !this.dayNight:
         return Icon.RAINNIGHT;
         break;
-      case this.cityDataMain === 'Snow' || this.cityDataDescription === 'freezing rain':
+      case this.cityDataMain === "Snow" || this.cityDataDescription === "freezing rain":
         return Icon.SNOW;
         break;
-      case this.cityDataDescription === 'few clouds' && this.dayNight:
+      case this.cityDataDescription === "few clouds" && this.dayNight:
         return Icon.FEWCLOUDSDAY;
         break;
-      case this.cityDataDescription === 'few clouds' && !this.dayNight:
+      case this.cityDataDescription === "few clouds" && !this.dayNight:
         return Icon.FEWCLOUDSNIGHT;
         break;
       default:
