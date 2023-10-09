@@ -1,4 +1,4 @@
-export interface Weatherdata {
+export interface WeatherData {
   timezone: number;
   weather:{
     main: string;
