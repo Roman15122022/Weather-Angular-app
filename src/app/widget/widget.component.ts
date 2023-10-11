@@ -16,9 +16,16 @@ export class WidgetComponent implements OnInit {
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
   ];
+  btnClass: string[] = [];
   constructor(private weatherService: WeatherService,) {}
   ngOnInit() {
   }
+  showInput(index: number) {
+    const widget = this.weatherWidgets[index];
+    widget.flag = false;
+    this.btnClass[index] = 'display_none';
+  }
+
   getWeather(index: number) {
     const widget = this.weatherWidgets[index];
     interval(3000)
@@ -33,7 +40,7 @@ export class WidgetComponent implements OnInit {
         widget.main.temp = data.main.temp;
         widget.main.temp_min = data.main.temp_min;
         widget.main.temp_max = data.main.temp_max;
-        widget.flag = false;
+        widget.flag = true;
 
         console.log(data);
       });

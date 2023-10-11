@@ -2,17 +2,17 @@
   <div class="container">
 
     <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
-      <div class="addCity" *ngIf="widget.flag">Add city</div>
-      <!--<button>+</button>-->
-      <form *ngIf="widget.flag">
-        <input type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
-        <button type="button" (click)="getWeather(i)">Get Weather</button>
+      <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
+      <button (click)="showInput(i)" class="btn" [class]="btnClass" *ngIf="widget.flag">+</button>
+      <form *ngIf="!widget.flag">
+        <input class="input" type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
+        <button class="inputBtn" type="button" (click)="getWeather(i)">Get Weather</button>
       </form>
-
       <div *ngIf="widget.weatherData">
         <h2 class="cityName">{{widget.name | uppercase}}</h2>
         <div>
-          <img class="icon" src="https://openweathermap.org/img/wn/{{widget.weatherData.weather[0].icon}}@2x.png" alt="">
+          <img class="icon" src="https://openweathermap.org/img/wn/{{widget.weatherData.weather[0].icon}}@2x.png"
+               alt="">
         </div>
         <div class="temp">{{widget.main.temp}}°</div>
         <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
