@@ -8,12 +8,10 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 })
 export class LayoutSiteComponent {
   darkLight(event: MatSlideToggleChange) {
-    const toolBar = document.getElementsByClassName('bg')[0];
-    toolBar.classList.remove('bg');
     if (event.checked) {
-      toolBar.classList.add('dark-theme');
+
     } else {
-      toolBar.classList.remove('dark-theme')
+
     }
   }
 }
