@@ -19,12 +19,12 @@ mat-drawer {
 }
 
 .light {
-  margin-left: 10px;
+  margin-right: 10px;
   color: #ff7e00;
 }
 
 .dark {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .logo {

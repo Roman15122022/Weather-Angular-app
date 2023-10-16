@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .con {
   min-height: 100vh;
 }
@@ -98,7 +97,7 @@
 }
 
 .btn:hover {
-  transition: all 0.3s linear;
+  transition: all .3s linear;
   background-color: #ff5733;
   rotate: 90deg;
 }
@@ -134,5 +133,3 @@
 .inputBtn:hover {
   background-color: #ff5733;
 }
-
-/*# sourceMappingURL=widget.component.css.map */
