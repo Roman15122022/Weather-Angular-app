@@ -1,16 +1,18 @@
-import {Icon} from "../widget/enum.icon";
-
 export interface WeatherWidget {
-  city: string;
+  name: string;
+  flag: boolean;
   weatherData: any;
-  cityTemp: number;
-  cityMaxTemp: number;
-  cityMinTemp: number;
-  IconSrc: Icon;
-  TimeZone: number;
+  main: {
+    temp: number;
+    temp_max: number;
+    temp_min: number;
+  };
+
   weather: WeatherData[];
 }
+
 export interface WeatherData {
   description: string;
   main: string;
+  icon: string;
 }

@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {WeatherService} from "../services/weather.service";
 import {interval, startWith} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {map,switchMap} from 'rxjs/operators';
 import {WeatherWidget} from "../interfaces/weatherwidget";
-import {Factorysrc} from "./factorysrc";
-import {FactoryDaynight} from "./factory-daynight";
-import {Icon} from "./enum.icon";
-
+import {WidgetUiMode} from "./WidgetUiMode";
 
 @Component({
   selector: 'app-widget',
@@ -15,45 +12,18 @@ import {Icon} from "./enum.icon";
 })
 export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
-    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT,
-      TimeZone: 0, weather: [
-        {description: '', main: ''}
-      ]
-    },
-
-    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT,
-      TimeZone: 0, weather: [
-        {description: '', main: ''}
-      ]
-    },
-
-    {city: '', weatherData: null, cityTemp: 0, cityMaxTemp: 0, cityMinTemp: 0, IconSrc: Icon.DEFAULT,
-      TimeZone: 0, weather: [
-        {description: '', main: ''}
-      ]
-    },
+    new WidgetUiMode({} as WeatherWidget),
+    new WidgetUiMode({} as WeatherWidget),
+    new WidgetUiMode({} as WeatherWidget),
   ];
-  formStates: { [key: string]: boolean } = {};
-
-
-  constructor(private weatherService: WeatherService,
-              private factorySrc: Factorysrc,
-              private factoryDayNight: FactoryDaynight,
-  ) {
-  }
-
+  btnClass: string[] = [];
+  constructor(private weatherService: WeatherService,) {}
   ngOnInit() {
-    interval(3000).subscribe(() => {
-      this.putIcon();
-    });
   }
-
-  putIcon() {
-    this.weatherWidgets.forEach((widget, index) => {
-      if (widget.weatherData) {
-        widget.IconSrc = this.factorySrc.settingIconBasedOnTimeAndWeather(widget.weatherData, widget.TimeZone);
-      }
-    });
+  showInput(index: number) {
+    const widget = this.weatherWidgets[index];
+    widget.flag = false;
+    this.btnClass[index] = 'display_none';
   }
 
   getWeather(index: number) {
@@ -61,20 +31,19 @@ export class WidgetComponent implements OnInit {
     interval(3000)
       .pipe(
         startWith(0),
-        switchMap(() => this.weatherService.getWeather(widget.city))
+        switchMap(() => this.weatherService.getWeather(widget.name)),
+        map((data) => new WidgetUiMode(data))
       )
       .subscribe(data => {
         widget.weatherData = data;
-        widget.cityTemp = Math.round(data.main.temp);
-        widget.cityMinTemp = Math.round(data.main.temp_min);
-        widget.cityMaxTemp = Math.round(data.main.temp_max);
-        widget.TimeZone = data.timezone;
-
-        this.factoryDayNight.setTimeZone(data.timezone);
+        widget.name = data.name;
+        widget.main.temp = data.main.temp;
+        widget.main.temp_min = data.main.temp_min;
+        widget.main.temp_max = data.main.temp_max;
+        widget.flag = true;
 
         console.log(data);
       });
-    this.formStates[widget.city] = true;
   }
 
 }

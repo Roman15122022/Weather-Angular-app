@@ -1,5 +1,5 @@
 
-export interface Weatherlocation {
+export interface WeatherLocation {
   apiKey: string;
   data: {
   }

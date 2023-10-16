@@ -21,7 +21,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {LayoutSiteComponent} from './layoutsite/layoutsite.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

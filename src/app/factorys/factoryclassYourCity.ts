@@ -1,4 +1,4 @@
-import {BlackOrWhite, PeriodOfDay} from "./enums";
+import {BlackOrWhite, PeriodOfDay} from "../enums/enumYourCity";
 
 
 export class BackgroundFactory {
