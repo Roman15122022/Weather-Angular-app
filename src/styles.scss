@@ -10,15 +10,24 @@ $my-theme: mat.define-light-theme((
     primary: $my-primary,
     accent: $my-accent,
   ),
+  typography: mat.define-typography-config(),
   density: 0,
 ));
 
+@include mat.all-component-themes($my-theme);
 
-@include mat.core-theme($my-theme);
+$angular-dark-theme: mat.define-dark-theme(
+    (
+      color: (
+        primary: $my-primary,
+        accent: $my-accent,
+      ),
+    )
+);
 
-
-@include mat.button-theme($my-theme);
-
+.darkMode {
+  @include mat.all-component-themes($angular-dark-theme);
+}
 
 
 html, body { height: 100vh; overflow: hidden; }

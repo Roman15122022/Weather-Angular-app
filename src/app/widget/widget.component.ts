@@ -5,6 +5,7 @@ import {map,switchMap} from 'rxjs/operators';
 import {WeatherWidget} from "../interfaces/weatherwidget";
 import {WidgetUiMode} from "./WidgetUiMode";
 
+
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',
@@ -17,7 +18,9 @@ export class WidgetComponent implements OnInit {
     new WidgetUiMode({} as WeatherWidget),
   ];
   btnClass: string[] = [];
-  constructor(private weatherService: WeatherService,) {}
+
+  constructor(private weatherService: WeatherService) {}
+
   ngOnInit() {
   }
   showInput(index: number) {
@@ -41,6 +44,7 @@ export class WidgetComponent implements OnInit {
         widget.main.temp_min = data.main.temp_min;
         widget.main.temp_max = data.main.temp_max;
         widget.flag = true;
+
 
         console.log(data);
       });
