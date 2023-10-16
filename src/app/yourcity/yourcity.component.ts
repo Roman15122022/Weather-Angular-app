@@ -9,7 +9,7 @@ import { BlackOrWhite, PeriodOfDay } from "../enums/enumYourCity";
 @Component({
   selector: 'app-yourcity',
   templateUrl: './yourcity.component.html',
-  styleUrls: ['./yourcity.component.css']
+  styleUrls: ['./yourcity.component.scss']
 })
 export class YourCityComponent implements OnInit, OnDestroy {
 
