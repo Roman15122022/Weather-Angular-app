@@ -3,7 +3,7 @@
 
     <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
       <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
-      <button (click)="showInput(i)" class="btn" [class]="btnClass" *ngIf="widget.flag">+</button>
+      <button (click)="showInput(i)" class="btn" [class]="btnClass" *ngIf="widget.flag && !widget.main.temp">+</button>
       <form *ngIf="!widget.flag">
         <input class="input" type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
         <button class="inputBtn" type="button" (click)="getWeather(i)">Get Weather</button>
@@ -30,7 +30,9 @@
         </div>
       </div>
     </div>
-
+  </div>
+  <div>
+    <button>Reset</button>
   </div>
 
 </div>
