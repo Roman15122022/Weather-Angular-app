@@ -13,7 +13,8 @@ export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),];
+    new WidgetUiMode({} as WeatherWidget),
+  ];
   btnClass: string[] = [];
 
   constructor(private weatherService: WeatherService) {
@@ -23,11 +24,13 @@ export class WidgetComponent implements OnInit {
     this.localStorage();
     this.updateWeather();
   }
-  updateWeather(){
-    for (let i = 0; i < this.weatherWidgets.length; i++){
+
+  updateWeather() {
+    for (let i = 0; i < this.weatherWidgets.length; i++) {
       this.getWeather(i);
     }
   }
+
   localStorage() {
     for (let i = 0; i < this.weatherWidgets.length; i++) {
       const widget = this.weatherWidgets[i];
@@ -43,6 +46,7 @@ export class WidgetComponent implements OnInit {
       }
     }
   }
+
   showInput(index: number) {
     const widget = this.weatherWidgets[index];
     widget.flag = false;
@@ -66,5 +70,25 @@ export class WidgetComponent implements OnInit {
       });
   }
 
+  clearActiveWidgets() {
+    for (let i = 0; i < this.weatherWidgets.length; i++) {
+      const widget = this.weatherWidgets[i];
+      if (widget.weatherData != null) {
+        widget.weatherData = null;
+        widget.name = '';
+        widget.main.temp = 0;
+        widget.main.temp_min = 0;
+        widget.main.temp_max = 0;
+        widget.flag = false;
+      }
+    }
+  }
+
+  resetLocalStorage() {
+    for (let i = 0; i < this.weatherWidgets.length; i++) {
+      localStorage.removeItem(`widget_${i}`);
+    }
+    this.clearActiveWidgets();
+  }
 }
 
