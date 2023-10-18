@@ -6,7 +6,7 @@
   <span class="spacer"> </span>
   <div class="darkLight">
     <mat-icon class="light">light_mode</mat-icon>
-    <mat-slide-toggle (change)="darkLight($event)"></mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="onOff" (change)="darkLight($event)"></mat-slide-toggle>
     <mat-icon class="dark">dark_mode</mat-icon>
   </div>
 </mat-toolbar>
