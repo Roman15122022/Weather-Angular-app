@@ -5,16 +5,25 @@
 .container {
   display: flex;
   justify-content: space-between;
-  margin: 50px 300px 0 300px;
+  align-items: center;
+  margin: 100px 200px;
 }
 
 .widget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.widgetItem{
   text-align: center;
   align-items: center;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   border-radius: 10%;
-  width: 26%;
+  width: 250px;
   height: 370px;
+  margin: 0 45px;
+
 }
 
 .addCity {
@@ -115,7 +124,7 @@
 }
 
 .input:focus {
-  border-color: #ff5733; /* Изменяем цвет границы при фокусе */
+  border-color: #ff5733;
 }
 
 .inputBtn {

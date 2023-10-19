@@ -1,6 +1,7 @@
 import { WeatherData, WeatherWidget } from "../interfaces/weatherwidget";
 
 export class WidgetUiMode implements WeatherWidget {
+  id: number;
   name: string;
   flag: boolean;
   weatherData: WeatherData;
@@ -13,6 +14,7 @@ export class WidgetUiMode implements WeatherWidget {
   weather: WeatherData[];
 
   constructor({
+                id,
                 name = "",
                 flag = true,
                 weatherData = null,
@@ -23,6 +25,7 @@ export class WidgetUiMode implements WeatherWidget {
                 },
                 weather = [{ description: "", main: "", icon: "" }],
               }: WeatherWidget) {
+    this.id = id || this.generateId();
     this.name = name;
     this.flag = flag;
     this.weatherData = weatherData;
@@ -33,6 +36,7 @@ export class WidgetUiMode implements WeatherWidget {
     };
     this.weather = weather;
   }
-
-
+  generateId(){
+    return Math.floor(Math.random()* 100) + 1;
+  }
 }

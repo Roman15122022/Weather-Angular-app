@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
-import {YourCityLocation} from "../interfaces/yourcitylocation";
-import {YourCityData} from "../interfaces/yourcitydata";
+import {YourCityLocation} from "../../interfaces/yourcitylocation";
+import {YourCityData} from "../../interfaces/yourcitydata";
 
 
 @Injectable({

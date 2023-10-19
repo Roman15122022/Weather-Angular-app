@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
@@ -6,40 +6,29 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
   templateUrl: './layoutsite.component.html',
   styleUrls: ['./layoutsite.component.scss'],
 })
-export class LayoutSiteComponent implements OnInit{
+export class LayoutSiteComponent implements AfterViewInit{
   onOff : boolean = false;
-  ngOnInit() {
+  @ViewChild('comp') compRef: ElementRef = new ElementRef(null);
+
+  ngAfterViewInit() {
     this.checkOnOff();
   }
 
   checkOnOff() {
-    const header = document.getElementsByTagName("mat-toolbar")[0];
-    const body = document.getElementsByTagName("mat-drawer-container")[0];
-    if (localStorage.getItem("theme") === "dark") {
-      header.classList.add("darkMode");
-      body.classList.add("darkMode");
-      this.onOff = true;
-    } else if (localStorage.getItem("theme") === "light") {
-      header.classList.remove("darkMode");
-      body.classList.remove("darkMode");
-      this.onOff = false;
-    }
+    const component = this.compRef.nativeElement;
+    const theme = localStorage.getItem("theme");
+    component.classList.add(theme);
+    this.onOff = (theme === 'darkMode');
   }
 
   darkLight(event: MatSlideToggleChange) {
-    const header = document.getElementsByTagName("mat-toolbar")[0];
-    const body = document.getElementsByTagName("mat-drawer-container")[0];
+    const component = this.compRef.nativeElement;
     if (event.checked) {
-      header.classList.add("darkMode");
-      body.classList.add("darkMode");
-
-      localStorage.setItem("theme", "dark");
-      console.log(localStorage.getItem("theme"));
+      component.classList.add("darkMode");
+      localStorage.setItem("theme", "darkMode");
     } else {
-      header.classList.remove("darkMode");
-      body.classList.remove("darkMode");
+      component.classList.remove("darkMode");
       localStorage.setItem("theme", "light");
-      console.log(localStorage.getItem("theme"));
     }
   }
 }

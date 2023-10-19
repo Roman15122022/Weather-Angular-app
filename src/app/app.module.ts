@@ -14,11 +14,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {WeatherService} from "./services/weather.service";
+import {WeatherService} from "./services/weatherservice/weather.service";
 import {WidgetComponent} from './widget/widget.component';
 import {YourCityComponent} from './yourcity/yourcity.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LayoutSiteComponent} from './layoutsite/layoutsite.component';
+
 
 
 @NgModule({

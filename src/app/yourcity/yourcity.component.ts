@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { YourCityService } from "../services/yourcity.service";
+import { YourCityService } from "../services/yourcityservice/yourcity.service";
 import {interval, startWith, Subscription} from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { BackgroundFactory } from "../factorys/factoryclassYourCity";
+import { BackgroundFactory } from "../factories/factoryclassYourCity";
 import { BlackOrWhite, PeriodOfDay } from "../enums/enumYourCity";
 
 
