@@ -1,4 +1,5 @@
 export interface WeatherWidget {
+  id: number;
   name: string;
   flag: boolean;
   weatherData: any;

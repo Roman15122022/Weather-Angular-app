@@ -1,12 +1,15 @@
 <div class="con">
   <div class="container">
-
-    <div class="widget" *ngFor="let widget of weatherWidgets; let i = index">
+    <button (click)="prevSlide()" mat-icon-button>
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <div class="widget">
+    <div class="widgetItem" *ngFor="let widget of weatherWidgets">
       <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
-      <button (click)="showInput(i)" class="btn" [class]="btnClass" *ngIf="widget.flag">+</button>
+      <button (click)="showInput(widget.id)" class="btn" *ngIf="widget.flag && !widget.main.temp">+</button>
       <form *ngIf="!widget.flag">
         <input class="input" type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
-        <button class="inputBtn" type="button" (click)="getWeather(i)">Get Weather</button>
+        <button class="inputBtn" type="button" (click)="getWeather(widget.id)">Get Weather</button>
       </form>
       <div *ngIf="widget.weatherData">
         <h2 class="cityName">{{widget.name | uppercase}}</h2>
@@ -30,7 +33,13 @@
         </div>
       </div>
     </div>
-
+    </div>
+    <button (click)="nextSlide()" mat-icon-button>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+  <div class="resetBtn">
+    <button (click)="resetLocalStorage()" mat-raised-button color="warn">Reset</button>
   </div>
 
 </div>

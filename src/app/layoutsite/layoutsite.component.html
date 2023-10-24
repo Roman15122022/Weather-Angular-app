@@ -1,37 +1,39 @@
-<mat-toolbar class="mat-toolbar mat-elevation-z8 mat-toolbar-single-row ">
-  <button (click)="drawer.toggle()" mat-icon-button>
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span class="logo">Weather</span>
-  <span class="spacer"> </span>
-  <div class="darkLight">
-    <mat-icon class="light">light_mode</mat-icon>
-    <mat-slide-toggle (change)="darkLight($event)"></mat-slide-toggle>
-    <mat-icon class="dark">dark_mode</mat-icon>
-  </div>
-</mat-toolbar>
+<div #comp>
+  <mat-toolbar class="mat-toolbar mat-elevation-z8 mat-toolbar-single-row">
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="logo">Weather</span>
+    <span class="spacer"> </span>
+    <div class="darkLight">
+      <mat-icon class="lightM">light_mode</mat-icon>
+      <mat-slide-toggle [(ngModel)]="onOff" (change)="darkLight($event)"></mat-slide-toggle>
+      <mat-icon class="darkM">dark_mode</mat-icon>
+    </div>
+  </mat-toolbar>
 
-<mat-drawer-container>
-  <mat-drawer #drawer opened="false" mode="over">
-    <mat-nav-list>
-      <mat-list-item>
-        <a routerLink="/home" routerLinkActive="active" mat-button>
-          <mat-icon>home</mat-icon>
-          Home
-        </a>
-      </mat-list-item>
-      <mat-list-item>
-        <a routerLink="/widgets" routerLinkActive="active" mat-button>
-          <mat-icon>analytics</mat-icon>
-          Widgets
-        </a>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-drawer>
+  <mat-drawer-container class="lightMode">
+    <mat-drawer #drawer opened="false" mode="over">
+      <mat-nav-list>
+        <mat-list-item>
+          <a routerLink="/home" routerLinkActive="active" mat-button>
+            <mat-icon>home</mat-icon>
+            Home
+          </a>
+        </mat-list-item>
+        <mat-list-item>
+          <a routerLink="/widgets" routerLinkActive="active" mat-button>
+            <mat-icon>analytics</mat-icon>
+            Widgets
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
 
-  <mat-drawer-content>
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
 
-</mat-drawer-container>
+  </mat-drawer-container>
 
+</div>
