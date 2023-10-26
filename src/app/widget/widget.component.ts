@@ -79,13 +79,14 @@ export class WidgetComponent implements OnInit {
     this.storageService.resetItem(WIDGET_STORAGE_KEY);
     this.widgetService.resetWidget(this.weatherWidgets);
   }
+  currentIndex: number = 0;
 
   nextSlide() {
-    /*ToDo*/
+
   }
 
   prevSlide() {
-    /*ToDo*/
+
   }
 
 }

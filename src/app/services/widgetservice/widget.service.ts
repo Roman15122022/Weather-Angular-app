@@ -49,4 +49,8 @@ export class WidgetService {
       }
     })
   }
+  addWidgets(weatherWidgets: WeatherWidget[]){
+    const newWidget = new WidgetUiMode({} as WeatherWidget);
+    weatherWidgets.push(newWidget);
+  }
 }
