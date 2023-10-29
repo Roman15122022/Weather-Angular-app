@@ -16,6 +16,7 @@ export class WidgetComponent implements OnInit {
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
+
   ];
   intervalWatcher: number = 3000;
 
@@ -79,10 +80,9 @@ export class WidgetComponent implements OnInit {
     this.storageService.resetItem(WIDGET_STORAGE_KEY);
     this.widgetService.resetWidget(this.weatherWidgets);
   }
-  currentIndex: number = 0;
 
+  visibleWidget = this.weatherWidgets.slice();
   nextSlide() {
-
   }
 
   prevSlide() {

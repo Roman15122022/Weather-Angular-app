@@ -3,7 +3,7 @@
     <button (click)="prevSlide()" mat-icon-button>
       <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
-    <div class="widget-slider">
+    <div class="widget">
       <div class="widgetItem" *ngFor="let widget of weatherWidgets">
         <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
         <button (click)="showInput(widget.id)" class="btn" *ngIf="widget.flag && !widget.main.temp">+</button>
