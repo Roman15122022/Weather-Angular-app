@@ -1,60 +1,44 @@
-<!--<div class="con">
-  <div class="container">
-    <button (click)="prevSlide()" mat-icon-button>
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
-    <div class="widget">
-      <div class="widgetItem" *ngFor="let widget of weatherWidgets">
-        <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
-        <button (click)="showInput(widget.id)" class="btn" *ngIf="widget.flag && !widget.main.temp">+</button>
-        <form *ngIf="!widget.flag">
-          <input class="input" type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
-          <button class="inputBtn" type="button" (click)="getWeather(widget.id)">Get Weather</button>
-        </form>
-        <div *ngIf="widget.weatherData">
-          <h2 class="cityName">{{widget.name | uppercase}}</h2>
-          <div>
-            <img class="icon" src="https://openweathermap.org/img/wn/{{widget.weatherData.weather[0].icon}}@2x.png"
-                 alt="">
-          </div>
-          <div class="temp">{{widget.main.temp}}°</div>
-          <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
-          <div class="min_max">
-            <div class="case">
-              <div class="triangle_down">▼</div>
-              <div class="min_max__temp">{{widget.main.temp_min}}</div>
-              <div class="min__text">Min</div>
+<div class="con">
+ <div class="container">
+  <ngx-slick-carousel class="carousel mt-3"
+                      #slickModal="slick-carousel"
+                      [config]="slideConfig">
+    <div class="slide" ngxSlickItem *ngFor="let widget of weatherWidgets">
+      <div class="widget">
+        <div class="widget-item">
+          <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
+          <button (click)="showInput(widget.id)" class="btn" *ngIf="widget.flag && !widget.main.temp">+</button>
+          <form *ngIf="!widget.flag">
+            <input class="input" type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
+            <button class="inputBtn" type="button" (click)="getWeather(widget.id)">Get Weather</button>
+          </form>
+          <div *ngIf="widget.weatherData">
+            <h2 class="cityName">{{widget.name | uppercase}}</h2>
+            <div>
+              <img class="icon" src="https://openweathermap.org/img/wn/{{widget.weatherData.weather[0].icon}}@2x.png"
+                   alt="">
             </div>
-            <div class="case">
-              <div class="triangle_up">▲</div>
-              <div class="min_max__temp">{{widget.main.temp_max}}</div>
-              <div class="max__text">Max</div>
+            <div class="temp">{{widget.main.temp}}°</div>
+            <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
+            <div class="min_max">
+              <div class="case">
+                <div class="triangle_down">▼</div>
+                <div class="min_max__temp">{{widget.main.temp_min}}</div>
+                <div class="min__text">Min</div>
+              </div>
+              <div class="case">
+                <div class="triangle_up">▲</div>
+                <div class="min_max__temp">{{widget.main.temp_max}}</div>
+                <div class="max__text">Max</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <button (click)="nextSlide()" mat-icon-button>
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
-  </div>-->
-  <ngx-slick-carousel class="carousel"
-                      #slickModal="slick-carousel"
-                      [config]="slideConfig"
-                      (init)="slickInit($event)"
-                      (breakpoint)="breakpoint($event)"
-                      (afterChange)="afterChange($event)"
-                      (beforeChange)="beforeChange($event)">
-    <div ngxSlickItem *ngFor="let slide of slides" class="slide">
-      <img src="{{ slide.img }}" alt="" width="100%">
-    </div>
   </ngx-slick-carousel>
-  <button (click)="addSlide()">Add</button>
-  <button (click)="removeSlide()">Remove</button>
-  <button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
-  <button (click)="slickModal.unslick()">unslick</button>
   <div class="resetBtn">
     <button (click)="resetLocalStorage()" mat-raised-button color="warn">Reset</button>
   </div>
-
-<!--</div>-->
+ </div>
+</div>

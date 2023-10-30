@@ -4,26 +4,23 @@
 }
 
 .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 100px 200px;
+  margin-top: 100px;
 }
 
 .widget {
+  padding: 10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
-.widgetItem{
+.widget-item {
   text-align: center;
   align-items: center;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   border-radius: 10%;
   width: 250px;
   height: 370px;
-  margin: 0 45px;
+  margin-left: 20.5%;
 
 }
 
@@ -41,6 +38,7 @@
 
 .icon {
   transform: scale(135%);
+  margin-left: 30%;
 }
 
 .temp {
@@ -144,22 +142,21 @@
   background-color: #ff5733;
 }
 
-.resetBtn{
+.resetBtn {
   margin-top: 7%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+
+/*Slider*/
 .slick-slider {
-  width: 88%;
+  width: 90%;
   margin: auto;
-  background: rgb(14, 13, 13);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-body .slick-prev,
-body .slick-next {
-  height: 45px;
-  width: 40px;
-  background: grey !important;
-  z-index: 100;
-}
+
