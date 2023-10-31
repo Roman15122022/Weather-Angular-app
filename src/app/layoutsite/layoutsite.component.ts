@@ -8,7 +8,7 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 })
 export class LayoutSiteComponent implements AfterViewInit{
   onOff : boolean = false;
-  @ViewChild('comp') compRef: ElementRef = new ElementRef(null);
+  @ViewChild('comp') compRef!: ElementRef;
 
   ngAfterViewInit() {
     this.checkOnOff();

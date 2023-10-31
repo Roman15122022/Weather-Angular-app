@@ -3,6 +3,7 @@ import {WidgetUiMode} from "../../widget/WidgetUiMode";
 import {WeatherWidget} from "../../interfaces/weatherwidget";
 import {map} from "rxjs/operators";
 import {WeatherService} from "../weatherservice/weather.service";
+import {SlideConfig} from "../../interfaces/slide-config";
 
 export const WIDGET_STORAGE_KEY = 'widgets';
 
@@ -14,7 +15,7 @@ export class WidgetService {
   }
 
   serviceData(widget: WeatherWidget) {
-    return  this.weatherService.getWeather(widget.name)
+    return this.weatherService.getWeather(widget.name)
       .pipe(
         map((data) => new WidgetUiMode(data))
       )
@@ -49,8 +50,31 @@ export class WidgetService {
       }
     })
   }
-  addWidgets(weatherWidgets: WeatherWidget[]){
-    const newWidget = new WidgetUiMode({} as WeatherWidget);
-    weatherWidgets.push(newWidget);
+
+  getConfigBySize(): SlideConfig {
+    const screenWidth = window.innerWidth;
+    let slideConfig = {
+      slidesToScroll: 3,
+      slidesToShow: 3,
+      prevArrow: 0,
+      nextArrow: 0,
+    }
+
+    if (screenWidth < 1000 && screenWidth >= 687) {
+      return {
+        slidesToScroll: 2,
+        slidesToShow: 2,
+        prevArrow: 0,
+        nextArrow: 0,
+      }
+    } else if (screenWidth < 687) {
+      return {
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        prevArrow: 0,
+        nextArrow: 0,
+      }
+    }
+    return slideConfig;
   }
 }

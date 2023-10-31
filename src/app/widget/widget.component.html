@@ -1,44 +1,60 @@
 <div class="con">
- <div class="container">
-  <ngx-slick-carousel class="carousel mt-3"
-                      #slickModal="slick-carousel"
-                      [config]="slideConfig">
-    <div class="slide" ngxSlickItem *ngFor="let widget of weatherWidgets">
-      <div class="widget">
-        <div class="widget-item">
-          <div class="addCity" *ngIf="!widget.main.temp">Add city</div>
-          <button (click)="showInput(widget.id)" class="btn" *ngIf="widget.flag && !widget.main.temp">+</button>
-          <form *ngIf="!widget.flag">
-            <input class="input" type="text" name="cityName" placeholder="Enter a city name" [(ngModel)]="widget.name">
-            <button class="inputBtn" type="button" (click)="getWeather(widget.id)">Get Weather</button>
-          </form>
-          <div *ngIf="widget.weatherData">
-            <h2 class="cityName">{{widget.name | uppercase}}</h2>
-            <div>
-              <img class="icon" src="https://openweathermap.org/img/wn/{{widget.weatherData.weather[0].icon}}@2x.png"
-                   alt="">
-            </div>
-            <div class="temp">{{widget.main.temp}}°</div>
-            <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
-            <div class="min_max">
-              <div class="case">
-                <div class="triangle_down">▼</div>
-                <div class="min_max__temp">{{widget.main.temp_min}}</div>
-                <div class="min__text">Min</div>
-              </div>
-              <div class="case">
-                <div class="triangle_up">▲</div>
-                <div class="min_max__temp">{{widget.main.temp_max}}</div>
-                <div class="max__text">Max</div>
+  <div class="container">
+    <div class="wrapper">
+      <div #btnLeft>
+        <button (click)="prevSlide()" mat-icon-button>
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+      </div>
+      <ngx-slick-carousel #slickModal="slick-carousel"
+                          [config]="slideConfig"
+                          class="carousel mt-3">
+        <div *ngFor="let widget of weatherWidgets" class="slide" ngxSlickItem>
+          <div class="widget">
+            <div class="widget-item">
+              <div *ngIf="!widget.main.temp" class="addCity">Add city</div>
+              <button (click)="showInput(widget.id)" *ngIf="widget.flag && !widget.main.temp" class="btn">+</button>
+              <form *ngIf="!widget.flag">
+                <input [(ngModel)]="widget.name" class="input" name="cityName" placeholder="Enter a city name"
+                       type="text">
+                <button (click)="getWeather(widget.id)" class="inputBtn" type="button">Get Weather</button>
+              </form>
+              <div *ngIf="widget.weatherData">
+                <h2 class="cityName">{{widget.name | uppercase}}</h2>
+                <div>
+                  <img alt=""
+                       class="icon"
+                       src="https://openweathermap.org/img/wn/{{widget.weatherData.weather[0].icon}}@2x.png">
+                </div>
+                <div class="temp">{{widget.main.temp}}°</div>
+                <p>{{widget.weatherData.weather[0].description | uppercase}}</p>
+                <div class="min_max">
+                  <div class="case">
+                    <div class="triangle_down">▼</div>
+                    <div class="min_max__temp">{{widget.main.temp_min}}</div>
+                    <div class="min__text">Min</div>
+                  </div>
+                  <div class="case">
+                    <div class="triangle_up">▲</div>
+                    <div class="min_max__temp">{{widget.main.temp_max}}</div>
+                    <div class="max__text">Max</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </ngx-slick-carousel>
+      <div #btnRight>
+        <button (click)="nextSlide()" mat-icon-button>
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
       </div>
     </div>
-  </ngx-slick-carousel>
-  <div class="resetBtn">
-    <button (click)="resetLocalStorage()" mat-raised-button color="warn">Reset</button>
+    <div class="controlBtnCon">
+      <button #removeLast (click)="removeLastWidget()" class="control-btn" color="accent" mat-raised-button>Remove Last</button>
+      <button (click)="resetLocalStorage()" class="control-btn" color="warn" mat-raised-button>Reset</button>
+      <button (click)="addWidget()" class="control-btn" color="primary" mat-raised-button>Add Widget</button>
+    </div>
   </div>
- </div>
 </div>
