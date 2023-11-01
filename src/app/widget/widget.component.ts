@@ -10,9 +10,7 @@ import {MatButton} from "@angular/material/button";
 import {SlideConfig} from "../interfaces/slide-config";
 
 @Component({
-  selector: 'app-widget',
-  templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.scss'],
+  selector: 'app-widget', templateUrl: './widget.component.html', styleUrls: ['./widget.component.scss'],
 })
 export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
@@ -21,25 +19,30 @@ export class WidgetComponent implements OnInit {
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),
-  ];
-  @ViewChild('slickModal', { static: true }) slickModal!: SlickCarouselComponent;
-  @ViewChild('removeLast') removeLast!: MatButton;
+    new WidgetUiMode({} as WeatherWidget),];
+  @ViewChild('slickModal', {static: true}) slickModal!: SlickCarouselComponent;
+  @ViewChild('removeLastBtn') removeLastBtn!: MatButton;
+  @ViewChild('resetBtn') resetBtn!: MatButton;
   @ViewChild('btnLeft') btnLeft!: ElementRef;
   @ViewChild('btnRight') btnRight!: ElementRef;
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.slideConfig = this.widgetService.getConfigBySize();
-    console.log(this.slideConfig)
-  }
   intervalWatcher: number = 3000;
-  slideConfig:SlideConfig = this.widgetService.getConfigBySize();
+  slideConfig: SlideConfig = this.widgetService.getConfigBySize();
 
   constructor(
     private storageService: LocalStorageService,
-    private widgetService: WidgetService,
+    private widgetService: WidgetService,) {
+  }
 
-    ) {
+  @HostListener('window:resize', ['$event']) onResize() {
+    this.slideConfig = this.widgetService.getConfigBySize();
+    this.widgetService.reSizeWidget(
+      this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,
+      this.slickModal,
+      );
   }
 
   ngOnInit() {
@@ -70,14 +73,17 @@ export class WidgetComponent implements OnInit {
       this.widgetService.updateData(data, widget);
     });
     this.setLocalStorage();
+    this.resetBtn.color = 'warn';
   }
 
   runWatcher() {
     this.weatherWidgets.forEach((widget: WeatherWidget) => {
-      interval(this.intervalWatcher).pipe(switchMap(() => this.widgetService.serviceData(widget)), map((data) => new WidgetUiMode(data))).subscribe(data => {
+      interval(this.intervalWatcher)
+        .pipe(
+          switchMap(() => this.widgetService.serviceData(widget)),
+          map((data) => new WidgetUiMode(data))
+        ).subscribe(data => {
         this.widgetService.updateData(data, widget);
-        console.log(data);
-        console.log(this.slideConfig);
       });
     });
   }
@@ -93,32 +99,32 @@ export class WidgetComponent implements OnInit {
   resetLocalStorage() {
     this.storageService.resetItem(WIDGET_STORAGE_KEY);
     this.widgetService.resetWidget(this.weatherWidgets);
+    this.resetBtn.color = undefined;
   }
 
-  addWidget(){
-    const newWidget = new WidgetUiMode({} as WeatherWidget);
-    this.weatherWidgets.push(newWidget);
-    if (this.weatherWidgets.length > 3){
-      this.removeLast.color = 'accent';
-      this.btnLeft.nativeElement.classList.remove('display_none');
-      this.btnRight.nativeElement.classList.remove('display_none');
-    }
+  addWidget() {
+    this.widgetService.activeButtons(this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,);
   }
+
   removeLastWidget() {
-    if (this.weatherWidgets.length > 3) {
-      this.weatherWidgets.length -= 1;
-    }
-    if (this.weatherWidgets.length === 3) {
-      this.removeLast.color = undefined;
-      this.btnLeft.nativeElement.classList.add('display_none');
-      this.btnRight.nativeElement.classList.add('display_none');
-    }
+    this.widgetService.disabledButtons(
+      this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,
+      );
   }
 
-  nextSlide(){
+  nextSlide() {
     this.slickModal.slickNext();
   }
-  prevSlide(){
+
+  prevSlide() {
     this.slickModal.slickPrev();
   }
 
