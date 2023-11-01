@@ -33,8 +33,8 @@
 }
 
 .city {
-  text-transform: uppercase;
   position: relative;
+  text-align: center;
 }
 
 .afterBlack {
@@ -62,9 +62,8 @@
   text-align: center;
 }
 
-.desc {
+.description {
   margin-top: 20%;
-  text-transform: uppercase;
   font-size: 15px;
   font-weight: 400;
   text-align: center;
@@ -80,6 +79,7 @@
   display: flex;
   margin-top: 15%;
   justify-content: flex-start;
+  text-align: center;
   margin-right: 20%;
 }
 
@@ -99,4 +99,60 @@
   font-size: 10px;
   padding-left: 2.5rem;
   border-left: 1px solid;
+}
+
+/*Media*/
+
+@media (max-width: 768px) {
+  .container{
+    margin: 0 20% 0 20%;
+  }
+  .temp{
+    font-size: 50px; /*70px*/
+    padding-left: 12%;
+  }
+  .description{
+    font-size: 13px; /*15px*/
+  }
+  .hum{
+    font-size: 8px; /*10px*/
+  }
+  .wind{
+    font-size: 8px; /*10px*/
+  }
+  .city{
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container{
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+  .left__block{
+    width: 100%;
+  }
+  .con{
+    align-items: center;
+    justify-content: center;
+    margin-left: 23%;
+  }
+  .city{
+    text-align: center;
+  }
+  .conForCity {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-left: 10px;
+  }
+  .afterBlack{
+    margin: 0 50px;
+  }
+  .afterWhite{
+    margin: 0 50px;
+  }
 }

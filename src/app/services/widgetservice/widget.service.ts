@@ -1,8 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Injectable, ElementRef} from '@angular/core';
 import {WidgetUiMode} from "../../widget/WidgetUiMode";
 import {WeatherWidget} from "../../interfaces/weatherwidget";
 import {map} from "rxjs/operators";
 import {WeatherService} from "../weatherservice/weather.service";
+import {SlideConfig} from "../../interfaces/slide-config";
+import {MatButton} from "@angular/material/button";
+import {SlickCarouselComponent} from "ngx-slick-carousel";
 
 export const WIDGET_STORAGE_KEY = 'widgets';
 
@@ -14,10 +17,8 @@ export class WidgetService {
   }
 
   serviceData(widget: WeatherWidget) {
-    return  this.weatherService.getWeather(widget.name)
-      .pipe(
-        map((data) => new WidgetUiMode(data))
-      )
+    return this.weatherService.getWeather(widget.name)
+      .pipe(map((data) => new WidgetUiMode(data)))
   }
 
   updateData(data: WidgetUiMode, widget: WeatherWidget) {
@@ -48,5 +49,55 @@ export class WidgetService {
         })
       }
     })
+  }
+
+  getConfigBySize(): SlideConfig {
+    const screenWidth = window.innerWidth;
+    let slideConfig = {
+      slidesToScroll: 3,
+      slidesToShow: 3,
+      prevArrow: 0,
+      nextArrow: 0,
+    };
+
+    if (screenWidth < 1000) {
+      slideConfig.slidesToScroll = slideConfig.slidesToShow = screenWidth < 687 ? 1 : 2;
+    }
+
+    return slideConfig;
+  }
+
+  disabledButtons(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton) {
+    if (weatherWidgets.length > showWidget) {
+      weatherWidgets.length -= 1;
+    }
+    if (weatherWidgets.length === showWidget) {
+      removeLast.color = undefined;
+      btnLeft.nativeElement.classList.add('display_none');
+      btnRight.nativeElement.classList.add('display_none');
+    }
+  }
+
+  activeButtons(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton) {
+    const newWidget = new WidgetUiMode({} as WeatherWidget);
+    weatherWidgets.push(newWidget);
+    if (weatherWidgets.length > showWidget) {
+      removeLast.color = 'accent';
+      btnLeft.nativeElement.classList.remove('display_none');
+      btnRight.nativeElement.classList.remove('display_none');
+    }
+  }
+
+  reSizeWidget(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton, slickModal: SlickCarouselComponent) {
+    if (weatherWidgets.length === showWidget) {
+      removeLast.color = undefined;
+      btnLeft.nativeElement.classList.add('display_none');
+      btnRight.nativeElement.classList.add('display_none');
+    }
+    if (weatherWidgets.length > showWidget) {
+      removeLast.color = 'accent';
+      btnLeft.nativeElement.classList.remove('display_none');
+      btnRight.nativeElement.classList.remove('display_none');
+    }
   }
 }

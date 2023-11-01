@@ -1,4 +1,6 @@
 @use '@angular/material' as mat;
+/*import 'node_modules/bootstrap/scss/bootstrap.scss';*/
+
 
 @include mat.core();
 
@@ -33,3 +35,6 @@ $angular-dark-theme: mat.define-dark-theme(
 html, body { height: 100vh; overflow: hidden; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

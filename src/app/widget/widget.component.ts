@@ -1,28 +1,48 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, HostListener} from '@angular/core';
 import {WeatherWidget} from "../interfaces/weatherwidget";
 import {WidgetUiMode} from "./WidgetUiMode";
 import {LocalStorageService} from "../services/loacalstorageservice/localstorage.service";
 import {WIDGET_STORAGE_KEY, WidgetService} from "../services/widgetservice/widget.service";
 import {interval} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
+import {SlickCarouselComponent} from 'ngx-slick-carousel';
+import {MatButton} from "@angular/material/button";
+import {SlideConfig} from "../interfaces/slide-config";
 
 @Component({
-  selector: 'app-widget',
-  templateUrl: './widget.component.html',
-  styleUrls: ['./widget.component.scss'],
+  selector: 'app-widget', templateUrl: './widget.component.html', styleUrls: ['./widget.component.scss'],
 })
 export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
-  ];
+    new WidgetUiMode({} as WeatherWidget),
+    new WidgetUiMode({} as WeatherWidget),
+    new WidgetUiMode({} as WeatherWidget),];
+  @ViewChild('slickModal', {static: true}) slickModal!: SlickCarouselComponent;
+  @ViewChild('removeLastBtn') removeLastBtn!: MatButton;
+  @ViewChild('resetBtn') resetBtn!: MatButton;
+  @ViewChild('btnLeft') btnLeft!: ElementRef;
+  @ViewChild('btnRight') btnRight!: ElementRef;
   intervalWatcher: number = 3000;
+  slideConfig: SlideConfig = this.widgetService.getConfigBySize();
 
   constructor(
     private storageService: LocalStorageService,
-    private widgetService: WidgetService,
-  ) {
+    private widgetService: WidgetService,) {
+  }
+
+  @HostListener('window:resize', ['$event']) onResize() {
+    this.slideConfig = this.widgetService.getConfigBySize();
+    this.widgetService.reSizeWidget(
+      this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,
+      this.slickModal,
+      );
   }
 
   ngOnInit() {
@@ -53,16 +73,17 @@ export class WidgetComponent implements OnInit {
       this.widgetService.updateData(data, widget);
     });
     this.setLocalStorage();
+    this.resetBtn.color = 'warn';
   }
 
   runWatcher() {
     this.weatherWidgets.forEach((widget: WeatherWidget) => {
-      interval(this.intervalWatcher).pipe(
-        switchMap(() => this.widgetService.serviceData(widget)),
-        map((data) => new WidgetUiMode(data))
-      ).subscribe(data => {
+      interval(this.intervalWatcher)
+        .pipe(
+          switchMap(() => this.widgetService.serviceData(widget)),
+          map((data) => new WidgetUiMode(data))
+        ).subscribe(data => {
         this.widgetService.updateData(data, widget);
-        console.log(data);
       });
     });
   }
@@ -78,14 +99,33 @@ export class WidgetComponent implements OnInit {
   resetLocalStorage() {
     this.storageService.resetItem(WIDGET_STORAGE_KEY);
     this.widgetService.resetWidget(this.weatherWidgets);
+    this.resetBtn.color = undefined;
+  }
+
+  addWidget() {
+    this.widgetService.activeButtons(this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,);
+  }
+
+  removeLastWidget() {
+    this.widgetService.disabledButtons(
+      this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,
+      );
   }
 
   nextSlide() {
-    /*ToDo*/
+    this.slickModal.slickNext();
   }
 
   prevSlide() {
-    /*ToDo*/
+    this.slickModal.slickPrev();
   }
 
 }

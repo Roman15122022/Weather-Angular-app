@@ -19,6 +19,7 @@ import {WidgetComponent} from './widget/widget.component';
 import {YourCityComponent} from './yourcity/yourcity.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LayoutSiteComponent} from './layoutsite/layoutsite.component';
+import {SlickCarouselModule} from "ngx-slick-carousel";
 
 
 
@@ -43,6 +44,7 @@ import {LayoutSiteComponent} from './layoutsite/layoutsite.component';
     FormsModule,
     CommonModule,
     AppRoutingModule,
+    SlickCarouselModule
   ],
   providers: [
     WeatherService,
