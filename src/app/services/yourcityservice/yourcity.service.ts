@@ -22,4 +22,17 @@ export class YourCityService {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.yourCityLocation.apiKey}&units=metric`;
     return this.http.get<YourCityData>(apiUrl);
   }
+
+  getData(): Observable<YourCityData> {
+    return new Observable<YourCityData>((observer) => {
+      navigator.geolocation.getCurrentPosition(({coords}) => {
+        const {latitude, longitude} = coords;
+        this.getNameByCoords(latitude, longitude).subscribe((data) => {
+          observer.next(data);
+          observer.complete();
+        });
+      });
+    });
+  }
+
 }

@@ -69,7 +69,6 @@ export class WidgetComponent implements OnInit {
       return item.id === id;
     }) || {} as WidgetUiMode;
     this.widgetService.serviceData(widget).subscribe(data => {
-      console.log(data);
       this.widgetService.updateData(data, widget);
     });
     this.setLocalStorage();
