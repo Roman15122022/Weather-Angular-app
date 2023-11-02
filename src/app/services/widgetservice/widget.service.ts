@@ -18,7 +18,9 @@ export class WidgetService {
 
   serviceData(widget: WeatherWidget) {
     return this.weatherService.getWeather(widget.name)
-      .pipe(map((data) => new WidgetUiMode(data)))
+      .pipe(
+        map((data) => new WidgetUiMode(data))
+      )
   }
 
   updateData(data: WidgetUiMode, widget: WeatherWidget) {

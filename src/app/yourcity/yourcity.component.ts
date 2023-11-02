@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { YourCityService } from "../services/yourcityservice/yourcity.service";
-import {interval, startWith, Subscription} from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { BackgroundFactory } from "../factories/factoryclassYourCity";
-import { BlackOrWhite, PeriodOfDay } from "../enums/enumYourCity";
+import {Component, OnInit} from '@angular/core';
+import {YourCityService} from "../services/yourcityservice/yourcity.service";
+import {interval, startWith} from 'rxjs';
+import {BackgroundFactory} from "../factories/factoryclassYourCity";
+import {BlackOrWhite, PeriodOfDay} from "../enums/enumYourCity";
 
 
 @Component({
@@ -11,49 +10,36 @@ import { BlackOrWhite, PeriodOfDay } from "../enums/enumYourCity";
   templateUrl: './yourcity.component.html',
   styleUrls: ['./yourcity.component.scss']
 })
-export class YourCityComponent implements OnInit, OnDestroy {
-
+export class YourCityComponent implements OnInit {
+  INTERVAL_UPDATE: number = 3000;
   nameCity: string = '';
   temp: number = 0;
   weather: any;
-  periodOfDay: PeriodOfDay =  PeriodOfDay.DAY;
+  periodOfDay: PeriodOfDay = PeriodOfDay.DAY;
   blackOrWhite: BlackOrWhite = BlackOrWhite.WHITE;
-
-  private geoSub: Subscription | null = null;
 
   constructor(private yourCityService: YourCityService) {
   }
 
   ngOnInit() {
-    this.getLocation();
-    this.setBackgroundBasedOnTime();
-    interval(3000).subscribe(() => {
+    this.runWatcher();
+  }
+
+  runWatcher() {
+    interval(this.INTERVAL_UPDATE).pipe(startWith(0)).subscribe(() => {
+      this.getLocation();
       this.setBackgroundBasedOnTime();
-    });
+    })
   }
 
   getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(({coords}) => {
-        const {latitude, longitude} = coords;
-
-        this.geoSub = interval(3000).
-        pipe(
-          startWith(0),
-          switchMap(() => this.yourCityService.getNameByCoords(latitude, longitude))
-        )
-          .subscribe((data) => {
-          this.nameCity = data.name;
-          this.weather = data;
-          this.temp = Math.round(data.main.temp);
-          console.log(data);
-        });
-      }, (error) => {
-        console.error('Error receiving geodata:', error);
+    this.yourCityService.getData()
+      .subscribe((data) => {
+        this.nameCity = data.name;
+        this.weather = data;
+        this.temp = Math.round(data.main.temp);
       });
-    } else {
-      console.error('Your browser does not support geolocation.');
-    }
+
   }
 
   setBackgroundBasedOnTime() {
@@ -63,10 +49,4 @@ export class YourCityComponent implements OnInit, OnDestroy {
     this.periodOfDay = backgroundFactory.getPeriodOfDay();
     this.blackOrWhite = backgroundFactory.getBlackOrWhite();
   }
-  ngOnDestroy() {
-    if (this.geoSub) {
-      this.geoSub.unsubscribe();
-    }
-  }
-
 }

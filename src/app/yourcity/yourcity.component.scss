@@ -2,26 +2,26 @@
 .morning {
   background: linear-gradient(to top, #FFC0CB, #87CEEB);
   color: black;
-  padding-bottom: 50%;
+  height: 100vh;
 }
 
 .day {
   background: linear-gradient(to top, #41a8d5, #FFFFFF);
   color: black;
-  padding-bottom: 50%;
+  height: 100vh;
 
 }
 
 .evening {
   background: linear-gradient(to top, #FFA500, #800080);
   color: white;
-  padding-bottom: 50%;
+  height: 100vh;
 }
 
 .night {
   background: linear-gradient(to top, #000080, #000);
   color: white;
-  padding-bottom: 50%;
+  height: 100vh;
 }
 
 .container {
@@ -132,6 +132,10 @@
   }
   .left__block{
     width: 100%;
+    margin-top: 40%;
+  }
+  .description{
+    margin-top: 10%;
   }
   .con{
     align-items: center;
