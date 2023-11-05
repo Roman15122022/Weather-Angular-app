@@ -19,7 +19,8 @@ export class WidgetComponent implements OnInit {
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),];
+    new WidgetUiMode({} as WeatherWidget),
+  ];
   @ViewChild('slickModal', {static: true}) slickModal!: SlickCarouselComponent;
   @ViewChild('removeLastBtn') removeLastBtn!: MatButton;
   @ViewChild('resetBtn') resetBtn!: MatButton;
