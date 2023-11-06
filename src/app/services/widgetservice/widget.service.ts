@@ -84,7 +84,7 @@ export class WidgetService {
     const newWidget = new WidgetUiMode({} as WeatherWidget);
     weatherWidgets.push(newWidget);
     if (weatherWidgets.length > showWidget) {
-      removeLast.color = 'accent';
+      removeLast.color = 'warn';
       btnLeft.nativeElement.classList.remove('display_none');
       btnRight.nativeElement.classList.remove('display_none');
     }
