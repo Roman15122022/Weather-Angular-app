@@ -42,7 +42,6 @@ export class WidgetComponent implements OnInit {
       this.btnRight,
       this.btnLeft,
       this.removeLastBtn,
-      this.slickModal,
       );
   }
 

@@ -5,7 +5,7 @@ import {map} from "rxjs/operators";
 import {WeatherService} from "../weatherservice/weather.service";
 import {SlideConfig} from "../../interfaces/slide-config";
 import {MatButton} from "@angular/material/button";
-import {SlickCarouselComponent} from "ngx-slick-carousel";
+
 
 export const WIDGET_STORAGE_KEY = 'widgets';
 
@@ -17,7 +17,7 @@ export class WidgetService {
   }
 
   serviceData(widget: WeatherWidget) {
-    return this.weatherService.getWeather(widget.name)
+    return this.weatherService.getWeather(widget.name.toLowerCase().replace(/\s/g, ''))
       .pipe(
         map((data) => new WidgetUiMode(data))
       )
@@ -90,14 +90,14 @@ export class WidgetService {
     }
   }
 
-  reSizeWidget(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton, slickModal: SlickCarouselComponent) {
+  reSizeWidget(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton) {
     if (weatherWidgets.length === showWidget) {
       removeLast.color = undefined;
       btnLeft.nativeElement.classList.add('display_none');
       btnRight.nativeElement.classList.add('display_none');
     }
     if (weatherWidgets.length > showWidget) {
-      removeLast.color = 'accent';
+      removeLast.color = 'warn';
       btnLeft.nativeElement.classList.remove('display_none');
       btnRight.nativeElement.classList.remove('display_none');
     }
