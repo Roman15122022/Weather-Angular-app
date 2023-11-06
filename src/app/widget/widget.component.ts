@@ -73,7 +73,7 @@ export class WidgetComponent implements OnInit {
       this.widgetService.updateData(data, widget);
     });
     this.setLocalStorage();
-    this.resetBtn.color = 'warn';
+    this.resetBtn.color = 'accent';
   }
 
   runWatcher() {
