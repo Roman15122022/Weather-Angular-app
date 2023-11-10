@@ -10,9 +10,11 @@ import {MatButton} from "@angular/material/button";
 import {SlideConfig} from "../interfaces/slide-config";
 
 @Component({
-  selector: 'app-widget', templateUrl: './widget.component.html', styleUrls: ['./widget.component.scss'],
+  selector: 'app-widget',
+  templateUrl: './widget.component.html',
+  styleUrls: ['./widget.component.scss'],
 })
-export class WidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit{
   weatherWidgets: WeatherWidget[] = [
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
@@ -26,6 +28,7 @@ export class WidgetComponent implements OnInit {
   @ViewChild('resetBtn') resetBtn!: MatButton;
   @ViewChild('btnLeft') btnLeft!: ElementRef;
   @ViewChild('btnRight') btnRight!: ElementRef;
+  @ViewChild('cityInput') cityInput!: ElementRef;
   intervalWatcher: number = 3000;
   slideConfig: SlideConfig = this.widgetService.getConfigBySize();
 
@@ -62,6 +65,11 @@ export class WidgetComponent implements OnInit {
       return item.id === id;
     }) || {} as WidgetUiMode;
     widget.flag = false;
+    setTimeout(()=> this.focusInput());
+  }
+  focusInput(){
+    this.cityInput.nativeElement.focus();
+
   }
 
   getWeather(id: number) {

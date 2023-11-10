@@ -9,13 +9,15 @@
       <ngx-slick-carousel #slickModal="slick-carousel"
                           [config]="slideConfig"
                           class="carousel mt-3">
-        <div *ngFor="let widget of weatherWidgets" class="slide" ngxSlickItem>
+        <div *ngFor="let widget of weatherWidgets; let i = index" class="slide" ngxSlickItem>
           <div class="widget">
             <div class="widget-item">
               <div *ngIf="!widget.main.temp" class="addCity">Add city</div>
-              <button (click)="showInput(widget.id)" *ngIf="widget.flag && !widget.main.temp" class="btn">+</button>
+              <div class="button-container">
+              <div (click)="showInput(widget.id)" *ngIf="widget.flag && !widget.main.temp" class="btn">+</div>
+              </div>
               <form *ngIf="!widget.flag">
-                <input [(ngModel)]="widget.name" class="input" name="cityName" placeholder="Enter a city name"
+                <input #cityInput [(ngModel)]="widget.name" class="input" name="cityName" placeholder="Enter a city name"
                        type="text">
                 <button (click)="getWeather(widget.id)" class="inputBtn" type="button">Get Weather</button>
               </form>

@@ -1,8 +1,16 @@
 export interface YourCityData {
-  latitude: number,
-  longitude: number,
   name: string,
+  weather: WeatherData[];
+  wind:{
+    speed: number
+  }
   main: {
-    temp: number;
+    temp: number
+    humidity: number
   },
+}
+
+export interface WeatherData {
+  description: string;
+
 }

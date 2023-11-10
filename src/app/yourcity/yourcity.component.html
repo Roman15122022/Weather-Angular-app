@@ -1,16 +1,16 @@
 <div id="gruond" [ngClass]="periodOfDay">
   <div class="container">
     <div class="left__block">
-      <div class="temp">{{temp}} °</div>
-      <div class="description">{{weather.weather[0].description | uppercase}}</div>
+      <div class="temp">{{cityData.temp}} °</div>
+      <div class="description">{{cityData.weather[0].description | uppercase}}</div>
       <div class="con">
-        <div class="hum">Humidity <p>{{weather.main.humidity}}%</p></div>
-        <div class="wind">Wind <p>{{weather.wind.speed}} m/s</p></div>
+        <div class="hum">Humidity <p>{{cityData.main.humidity}}%</p></div>
+        <div class="wind">Wind <p>{{cityData.wind.speed}} m/s</p></div>
       </div>
     </div>
     <div>
       <div class="conForCity">
-        <h2 class="city">{{nameCity | uppercase}}</h2>
+        <h2 class="city">{{cityData.name | uppercase}}</h2>
         <div [ngClass]="blackOrWhite"></div>
       </div>
     </div>
