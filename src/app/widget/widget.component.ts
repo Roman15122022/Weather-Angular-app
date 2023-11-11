@@ -1,20 +1,25 @@
-import {Component, OnInit, ViewChild, ElementRef, HostListener} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {WeatherWidget} from "../interfaces/weatherwidget";
 import {WidgetUiMode} from "./WidgetUiMode";
-import {LocalStorageService} from "../services/loacalstorageservice/localstorage.service";
-import {WIDGET_STORAGE_KEY, WidgetService} from "../services/widgetservice/widget.service";
-import {interval} from "rxjs";
+import {LocalStorageService} from "../services/loacalstorage-service/localstorage.service";
+import {WIDGET_STORAGE_KEY, WidgetService} from "../services/widget-service/widget.service";
+import {interval, Observable, startWith} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 import {SlickCarouselComponent} from 'ngx-slick-carousel';
 import {MatButton} from "@angular/material/button";
 import {SlideConfig} from "../interfaces/slide-config";
+import {HttpErrorResponse} from "@angular/common/http";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {CityService} from "../services/city-srvice/city.service";
+import {FormControl} from "@angular/forms";
+
 
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss'],
 })
-export class WidgetComponent implements OnInit{
+export class WidgetComponent implements OnInit {
   weatherWidgets: WeatherWidget[] = [
     new WidgetUiMode({} as WeatherWidget),
     new WidgetUiMode({} as WeatherWidget),
@@ -28,13 +33,17 @@ export class WidgetComponent implements OnInit{
   @ViewChild('resetBtn') resetBtn!: MatButton;
   @ViewChild('btnLeft') btnLeft!: ElementRef;
   @ViewChild('btnRight') btnRight!: ElementRef;
-  @ViewChild('cityInput') cityInput!: ElementRef;
   intervalWatcher: number = 3000;
   slideConfig: SlideConfig = this.widgetService.getConfigBySize();
+  cityArray: string[] = ['London', 'Kyiv', 'Dnipro','Kharkiv','Warsaw', 'Lodz', 'Odessa'];
+  filterOptions!:Observable<string[]>;
+  formsControl = new FormControl('');
 
   constructor(
     private storageService: LocalStorageService,
-    private widgetService: WidgetService,) {
+    private widgetService: WidgetService,
+    private snackBar: MatSnackBar,
+    private cityService: CityService ,) {
   }
 
   @HostListener('window:resize', ['$event']) onResize() {
@@ -45,10 +54,21 @@ export class WidgetComponent implements OnInit{
       this.btnRight,
       this.btnLeft,
       this.removeLastBtn,
-      );
+    );
+  }
+  private _FILTER(value: string): string[]{
+    const searchValue = value.toLowerCase();
+    return this.cityArray.filter(option=>option.toLowerCase().includes(searchValue));
+  }
+  filterCity(){
+    this.filterOptions = this.formsControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._FILTER(value || ''))
+    );
   }
 
   ngOnInit() {
+    this.filterCity();
     this.localStorage();
     this.runWatcher()
     this.updateWeather();
@@ -65,22 +85,33 @@ export class WidgetComponent implements OnInit{
       return item.id === id;
     }) || {} as WidgetUiMode;
     widget.flag = false;
-    setTimeout(()=> this.focusInput());
   }
-  focusInput(){
-    this.cityInput.nativeElement.focus();
 
-  }
 
   getWeather(id: number) {
     const widget = this.weatherWidgets.find((item) => {
       return item.id === id;
     }) || {} as WidgetUiMode;
-    this.widgetService.serviceData(widget).subscribe(data => {
-      this.widgetService.updateData(data, widget);
+
+    this.widgetService.serviceData(widget).subscribe(
+      data => {
+        this.widgetService.updateData(data, widget);
+        this.setLocalStorage();
+        setTimeout(() => { this.resetBtn.color = 'accent'; });
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this.openSnackBar();
+        } else {
+          console.error('An error occurred while receiving weather data:', error.statusText);
+        }
+      }
+    );
+  }
+  openSnackBar() {
+    this.snackBar.open('Incorrect city name. Please check the input', 'Done', {
+      duration: 2000,
     });
-    this.setLocalStorage();
-    this.resetBtn.color = 'accent';
   }
 
   runWatcher() {
@@ -124,7 +155,7 @@ export class WidgetComponent implements OnInit{
       this.btnRight,
       this.btnLeft,
       this.removeLastBtn,
-      );
+    );
   }
 
   nextSlide() {
@@ -134,6 +165,5 @@ export class WidgetComponent implements OnInit{
   prevSlide() {
     this.slickModal.slickPrev();
   }
-
 }
 

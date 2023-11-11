@@ -2,7 +2,7 @@ import {Injectable, ElementRef} from '@angular/core';
 import {WidgetUiMode} from "../../widget/WidgetUiMode";
 import {WeatherWidget} from "../../interfaces/weatherwidget";
 import {map} from "rxjs/operators";
-import {WeatherService} from "../weatherservice/weather.service";
+import {WeatherService} from "../weather-service/weather.service";
 import {SlideConfig} from "../../interfaces/slide-config";
 import {MatButton} from "@angular/material/button";
 

@@ -1,15 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {YourCityService} from "../services/yourcityservice/yourcity.service";
+import {YourCityService} from "../services/yourcity-service/yourcity.service";
 import {interval, startWith} from 'rxjs';
 import {BackgroundFactory} from "../factories/factoryclassYourCity";
 import {BlackOrWhite, PeriodOfDay} from "../enums/enumYourCity";
 import {CityData} from "../interfaces/city-data";
-import {CITY_STORAGE_KEY} from "../services/yourcityservice/yourcity.service";
-import {LocalStorageService} from "../services/loacalstorageservice/localstorage.service";
+import {CITY_STORAGE_KEY} from "../services/yourcity-service/yourcity.service";
+import {LocalStorageService} from "../services/loacalstorage-service/localstorage.service";
+import {CityService} from "../services/city-srvice/city.service";
 
 
 @Component({
-  selector: 'app-yourcity', templateUrl: './yourcity.component.html', styleUrls: ['./yourcity.component.scss']
+  selector: 'app-yourcity',
+  templateUrl: './yourcity.component.html',
+  styleUrls: ['./yourcity.component.scss']
 })
 export class YourCityComponent implements OnInit {
 
@@ -33,7 +36,7 @@ export class YourCityComponent implements OnInit {
   blackOrWhite: BlackOrWhite = BlackOrWhite.WHITE;
 
   constructor(private yourCityService: YourCityService,
-              private storageService: LocalStorageService) {
+              private storageService: LocalStorageService,) {
   }
 
   ngOnInit() {
@@ -57,6 +60,7 @@ export class YourCityComponent implements OnInit {
         this.cityData.weather = data.weather;
         this.cityData.weather[0].description = data.weather[0].description;
         this.cityData.main.humidity = data.main.humidity;
+        this.cityData.wind.speed = data.wind.speed
         this.cityData.temp = Math.round(data.main.temp);
       });
 
