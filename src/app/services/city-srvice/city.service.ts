@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CityService {
-  apiKey: string = 'AIzaSyAI65A5uc4QaS6zceIpz6QABAV_2Gwnito'; /*google place api-key*/
+  apiKey: string = 'AIzaSyCxuXmy9ov2QXkB15wjhiruf1VvC_Cle90'; /*google place api-key*/
   constructor(private http: HttpClient) {}
 
   getCities(): Observable<string[]> {
-    return this.http.get<string[]>('');
+    return this.http.get<string[]>('https://maps.googleapis.com/maps/api/js?key=AIzaSyCxuXmy9ov2QXkB15wjhiruf1VvC_Cle90&libraries=places&callback=initMap');
   }
 }

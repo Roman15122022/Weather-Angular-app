@@ -18,7 +18,7 @@
               </div>
               <form *ngIf="!widget.flag">
                 <mat-form-field class="form-field" color="accent">
-                  <input [(ngModel)]="widget.name" [formControl]="formsControl" [matAutocomplete]="auto" class="input"
+                  <input #cityInput [(ngModel)]="widget.name" [formControl]="formsControl" [matAutocomplete]="auto" class="input"
                          matInput name="cityName" placeholder="Enter city name" type="text">
                   <mat-autocomplete #auto autoActiveFirstOption>
                     <mat-option *ngFor="let city of filterOptions | async" [value]="city">{{city}}</mat-option>
