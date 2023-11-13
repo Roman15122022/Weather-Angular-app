@@ -38,7 +38,7 @@ export class WidgetComponent implements OnInit {
   intervalWatcher: number = 3000;
   slideConfig: SlideConfig = this.widgetService.getConfigBySize();
 
-  cityArray: string[] = ['London', 'Kyiv', 'Dnipro', 'Kharkiv', 'Warsaw', 'Lodz', 'Odessa'];
+  cityArray: string[] = [];
   filterOptions!: Observable<string[]>;
   formsControl = new FormControl('');
 
@@ -66,8 +66,19 @@ export class WidgetComponent implements OnInit {
       map(value => this._FILTER(value || ''))
     );
   }
+  private _FILTER(value: string): string[] {
+    const searchValue = value.toLowerCase();
+    return this.cityArray.filter(option => option.toLowerCase().includes(searchValue));
+  }
+  fillingArray(){
+    this.cityService.getCities().subscribe(
+      (cities: string[]) => {
+        this.cityArray = cities.sort();
+      });
+  }
 
   ngOnInit() {
+    this.fillingArray();
     this.filterCity();
     this.localStorage();
     this.runWatcher()
@@ -166,14 +177,6 @@ export class WidgetComponent implements OnInit {
 
   prevSlide() {
     this.slickModal.slickPrev();
-  }
-  options = {
-    types: ['address'],
-    componentRestrictions: { country: 'your-country-code' } // Например, 'us'
-  };
-  private _FILTER(value: string): string[] {
-    const searchValue = value.toLowerCase();
-    return this.cityArray.filter(option => option.toLowerCase().includes(searchValue));
   }
 }
 

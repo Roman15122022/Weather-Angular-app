@@ -1,16 +1,31 @@
-
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CityService {
-  apiKey: string = 'AIzaSyCxuXmy9ov2QXkB15wjhiruf1VvC_Cle90'; /*google place api-key*/
+  private apiUrl = 'http://api.geonames.org/searchJSON';
+  private username = 'roma2132';
+
   constructor(private http: HttpClient) {}
 
   getCities(): Observable<string[]> {
-    return this.http.get<string[]>('https://maps.googleapis.com/maps/api/js?key=AIzaSyCxuXmy9ov2QXkB15wjhiruf1VvC_Cle90&libraries=places&callback=initMap');
+    const params = new HttpParams()
+      .set('name', '')
+      .set('maxRows', '1000')
+      .set('featureClass', 'P')
+      .set('orderby', 'population')
+      .set('username', this.username);
+
+    return this.http.get<any>(this.apiUrl, { params }).pipe(
+      map((data) => data.geonames.map((city: any) => city.name)),
+      catchError((error) => {
+        console.error('Error fetching cities:', error);
+        return throwError(error);
+      })
+    );
   }
 }

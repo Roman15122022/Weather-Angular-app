@@ -17,7 +17,7 @@ export class WidgetService {
   }
 
   serviceData(widget: WeatherWidget) {
-    return this.weatherService.getWeather(widget.name.toLowerCase().replace(/\s/g, ''))
+    return this.weatherService.getWeather(widget.name.trim())
       .pipe(
         map((data) => new WidgetUiMode(data))
       )
