@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CityService {
-  private apiUrl = 'http://api.geonames.org/searchJSON';
+  private apiUrl = 'https://secure.geonames.org/searchJSON';
   private username = 'roma2132';
 
   constructor(private http: HttpClient) {}
@@ -21,13 +21,12 @@ export class CityService {
       .set('username', this.username);
 
     return this.http.get<any>(this.apiUrl, { params }).pipe(
-      map(({ geonames }) => geonames.map((city: any) => city.name)),
-      catchError(this.handleError)
+      // Обработка ответа и извлечение имен городов
+      map((data) => data.geonames.map((city: any) => city.name)),
+      catchError((error) => {
+        console.error('Error fetching cities:', error);
+        return throwError(error);
+      })
     );
-  }
-
-  private handleError(error: any): Observable<never> {
-    console.error('Error fetching cities:', error);
-    return throwError(error);
   }
 }
