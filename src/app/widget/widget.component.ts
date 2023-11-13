@@ -13,29 +13,20 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {CityService} from "../services/city-srvice/city.service";
 import {FormControl} from "@angular/forms";
 
-
-
 @Component({
   selector: 'app-widget',
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss'],
 })
 export class WidgetComponent implements OnInit {
-  weatherWidgets: WeatherWidget[] = [
-    new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),
-    new WidgetUiMode({} as WeatherWidget),
-  ];
+  weatherWidgets: WeatherWidget[] = Array.from({length: 6}, () => new WidgetUiMode({} as WeatherWidget));
   @ViewChild('slickModal', {static: true}) slickModal!: SlickCarouselComponent;
   @ViewChild('removeLastBtn') removeLastBtn!: MatButton;
   @ViewChild('resetBtn') resetBtn!: MatButton;
   @ViewChild('btnLeft') btnLeft!: ElementRef;
   @ViewChild('btnRight') btnRight!: ElementRef;
   @ViewChild('cityInput') cityInput!: ElementRef;
-  intervalWatcher: number = 3000;
+  INTERVAL: number = 3000;
   slideConfig: SlideConfig = this.widgetService.getConfigBySize();
 
   cityArray: string[] = [];
@@ -46,10 +37,12 @@ export class WidgetComponent implements OnInit {
     private storageService: LocalStorageService,
     private widgetService: WidgetService,
     private snackBar: MatSnackBar,
-    private cityService: CityService,) {
+    private cityService: CityService,
+  ) {
   }
 
-  @HostListener('window:resize', ['$event']) onResize() {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
     this.slideConfig = this.widgetService.getConfigBySize();
     this.widgetService.reSizeWidget(
       this.slideConfig.slidesToShow,
@@ -66,11 +59,8 @@ export class WidgetComponent implements OnInit {
       map(value => this._FILTER(value || ''))
     );
   }
-  private _FILTER(value: string): string[] {
-    const searchValue = value.toLowerCase();
-    return this.cityArray.filter(option => option.toLowerCase().includes(searchValue));
-  }
-  fillingArray(){
+
+  fillingArray() {
     this.cityService.getCities().subscribe(
       (cities: string[]) => {
         this.cityArray = cities.sort();
@@ -81,31 +71,27 @@ export class WidgetComponent implements OnInit {
     this.fillingArray();
     this.filterCity();
     this.localStorage();
-    this.runWatcher()
+    this.runWatcher();
     this.updateWeather();
   }
 
   updateWeather() {
-    this.weatherWidgets.forEach((value) => {
-      this.getWeather(value.id);
-    })
+    for (const widget of this.weatherWidgets) {
+      this.getWeather(widget.id);
+    }
   }
 
   showInput(id: number) {
-    const widget = this.weatherWidgets.find((item) => {
-      return item.id === id;
-    }) || {} as WidgetUiMode;
+    const widget = this.weatherWidgets.find(item => item.id === id) || {} as WidgetUiMode;
     widget.flag = false;
   }
 
   getWeather(id: number) {
-    const widget = this.weatherWidgets.find((item) => {
-      return item.id === id;
-    }) || {} as WidgetUiMode;
+    const currentWidget = this.weatherWidgets.find(item => item.id === id) || {} as WidgetUiMode;
 
-    this.widgetService.serviceData(widget).subscribe(
+    this.widgetService.serviceData(currentWidget).subscribe(
       data => {
-        this.widgetService.updateData(data, widget);
+        this.widgetService.updateData(data, currentWidget);
         this.setLocalStorage();
         setTimeout(() => {
           this.resetBtn.color = 'accent';
@@ -128,15 +114,15 @@ export class WidgetComponent implements OnInit {
   }
 
   runWatcher() {
-    this.weatherWidgets.forEach((widget: WeatherWidget) => {
-      interval(this.intervalWatcher)
+    for (const widget of this.weatherWidgets) {
+      interval(this.INTERVAL)
         .pipe(
           switchMap(() => this.widgetService.serviceData(widget)),
-          map((data) => new WidgetUiMode(data))
+          map(data => new WidgetUiMode(data))
         ).subscribe(data => {
         this.widgetService.updateData(data, widget);
       });
-    });
+    }
   }
 
   localStorage() {
@@ -154,11 +140,13 @@ export class WidgetComponent implements OnInit {
   }
 
   addWidget() {
-    this.widgetService.activeButtons(this.slideConfig.slidesToShow,
+    this.widgetService.activeButtons(
+      this.slideConfig.slidesToShow,
       this.weatherWidgets,
       this.btnRight,
       this.btnLeft,
-      this.removeLastBtn,);
+      this.removeLastBtn,
+    );
   }
 
   removeLastWidget() {
@@ -178,5 +166,9 @@ export class WidgetComponent implements OnInit {
   prevSlide() {
     this.slickModal.slickPrev();
   }
-}
 
+  private _FILTER(value: string): string[] {
+    const searchValue = value.toLowerCase();
+    return this.cityArray.filter(option => option.toLowerCase().includes(searchValue));
+  }
+}

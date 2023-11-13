@@ -21,11 +21,13 @@ export class CityService {
       .set('username', this.username);
 
     return this.http.get<any>(this.apiUrl, { params }).pipe(
-      map((data) => data.geonames.map((city: any) => city.name)),
-      catchError((error) => {
-        console.error('Error fetching cities:', error);
-        return throwError(error);
-      })
+      map(({ geonames }) => geonames.map((city: any) => city.name)),
+      catchError(this.handleError)
     );
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('Error fetching cities:', error);
+    return throwError(error);
   }
 }
