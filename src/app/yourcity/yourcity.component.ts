@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+  import {Component, OnInit} from '@angular/core';
 import {YourCityService} from "../services/yourcity-service/yourcity.service";
 import {interval, startWith} from 'rxjs';
 import {BackgroundFactory} from "../factories/factoryclassYourCity";

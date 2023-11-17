@@ -158,6 +158,21 @@ export class WidgetComponent implements OnInit {
       this.removeLastBtn,
     );
   }
+  resetThisWidget(id: number) {
+    this.widgetService.resetThisWidget(this.weatherWidgets, id);
+  }
+
+  deleteThisWidget(id: number) {
+    this.widgetService.delete(
+      this.weatherWidgets,
+      id,
+      this.slideConfig.slidesToShow,
+      this.btnRight,
+      this.btnLeft,
+      this.removeLastBtn,
+      this.snackBar,
+    );
+  }
 
   nextSlide() {
     this.slickModal.slickNext();

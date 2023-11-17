@@ -5,6 +5,7 @@ import {map} from "rxjs/operators";
 import {WeatherService} from "../weather-service/weather.service";
 import {SlideConfig} from "../../interfaces/slide-config";
 import {MatButton} from "@angular/material/button";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 export const WIDGET_STORAGE_KEY = 'widgets';
@@ -18,21 +19,14 @@ export class WidgetService {
 
   serviceData(widget: WeatherWidget) {
     return this.weatherService.getWeather(widget.name.trim())
-      .pipe(
-        map((data) => new WidgetUiMode(data))
-      )
+      .pipe(map((data) => new WidgetUiMode(data)))
   }
 
   updateData(data: WidgetUiMode, widget: WeatherWidget) {
     Object.assign(widget, {
-      weatherData: data,
-      name: data.name,
-      main: {
-        temp: data.main.temp,
-        temp_min: data.main.temp_min,
-        temp_max: data.main.temp_max,
-      },
-      flag: true
+      weatherData: data, name: data.name, main: {
+        temp: data.main.temp, temp_min: data.main.temp_min, temp_max: data.main.temp_max,
+      }, flag: true
     });
   }
 
@@ -40,14 +34,21 @@ export class WidgetService {
     weatherWidgets.forEach((item) => {
       if (item.weatherData != null) {
         Object.assign(item, {
-          weatherData: null,
-          name: '',
-          main: {
-            temp: 0,
-            temp_min: 0,
-            temp_max: 0,
-          },
-          flag: false,
+          weatherData: null, name: '', main: {
+            temp: 0, temp_min: 0, temp_max: 0,
+          }, flag: false,
+        })
+      }
+    })
+  }
+
+  resetThisWidget(weatherWidgets: WeatherWidget[], id: number) {
+    weatherWidgets.forEach((item) => {
+      if (item.id === id) {
+        Object.assign(item, {
+          weatherData: null, name: '', main: {
+            temp: 0, temp_min: 0, temp_max: 0,
+          }, flag: false,
         })
       }
     })
@@ -56,10 +57,7 @@ export class WidgetService {
   getConfigBySize(): SlideConfig {
     const screenWidth = window.innerWidth;
     let slideConfig = {
-      slidesToScroll: 3,
-      slidesToShow: 3,
-      prevArrow: 0,
-      nextArrow: 0,
+      slidesToScroll: 3, slidesToShow: 3, prevArrow: 0, nextArrow: 0,
     };
 
     if (screenWidth < 1000) {
@@ -77,6 +75,22 @@ export class WidgetService {
       removeLast.color = undefined;
       btnLeft.nativeElement.classList.add('display_none');
       btnRight.nativeElement.classList.add('display_none');
+    }
+  }
+
+  delete(weatherWidgets: WeatherWidget[], id: number, showWidget: number, btnRight: ElementRef, btnLeft: ElementRef, removeLast: MatButton, snackBar : MatSnackBar) {
+    if (weatherWidgets.length > showWidget) {
+      weatherWidgets.forEach((widget, index) => {
+        if (widget.id === id) {
+          weatherWidgets.splice(index, 1);
+        }
+      })
+    }
+    if (weatherWidgets.length === showWidget) {
+      removeLast.color = undefined;
+      btnLeft.nativeElement.classList.add('display_none');
+      btnRight.nativeElement.classList.add('display_none');
+      snackBar.open(`You can't keep less than ${showWidget} widgets.`, 'Done', {duration: 2000});
     }
   }
 
