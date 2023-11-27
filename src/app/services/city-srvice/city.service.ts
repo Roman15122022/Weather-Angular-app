@@ -21,7 +21,6 @@ export class CityService {
       .set('username', this.username);
 
     return this.http.get<any>(this.apiUrl, { params }).pipe(
-      // Обработка ответа и извлечение имен городов
       map((data) => data.geonames.map((city: any) => city.name)),
       catchError((error) => {
         console.error('Error fetching cities:', error);

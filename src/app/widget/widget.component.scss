@@ -16,7 +16,6 @@
 }
 
 .widget {
-  position: relative;
   padding: 10px 0;
   display: flex;
   align-items: center;
@@ -24,6 +23,7 @@
 }
 
 .widget-item {
+  position: relative;
   text-align: center;
   align-items: center;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
@@ -38,11 +38,12 @@
   text-transform: uppercase;
   font-size: 16px;
 }
+
 .control__btn {
   position: absolute;
   display: flex;
-  right: 68px;
-  top: 21px;
+  right: 6%;
+  top: 3%;
   opacity: 0;
   transition: opacity .1s linear;
 }
@@ -64,8 +65,8 @@
   transform: scale(150%);
 }
 
-.icon-edit:hover{
-  color: #00ff3c;
+.icon-edit:hover {
+  color: #41ff02;
   transform: scale(150%);
 }
 
@@ -134,11 +135,13 @@
 .display_none {
   display: none;
 }
-.button-container{
+
+.button-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .btn {
   margin-top: 35%;
   font-size: 100px;
@@ -157,7 +160,8 @@
   background-color: #ff4081;
   rotate: 90deg;
 }
-.form-field{
+
+.form-field {
   margin-top: 15%;
   height: 80px;
   width: 80%;
@@ -185,13 +189,13 @@
 
 
 @media (max-width: 1200px) {
-  .slick-slider{
+  .slick-slider {
     width: 100%;
   }
 }
 
 @media (max-width: 500px) {
-  .container{
+  .container {
     margin-top: 100px;
   }
 

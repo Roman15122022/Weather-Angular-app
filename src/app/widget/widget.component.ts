@@ -150,7 +150,7 @@ export class WidgetComponent implements OnInit {
   }
 
   removeLastWidget() {
-    this.widgetService.disabledButtons(
+    this.widgetService.removeLast(
       this.slideConfig.slidesToShow,
       this.weatherWidgets,
       this.btnRight,
@@ -163,7 +163,7 @@ export class WidgetComponent implements OnInit {
   }
 
   deleteThisWidget(id: number) {
-    this.widgetService.delete(
+    this.widgetService.deleteWidget(
       this.weatherWidgets,
       id,
       this.slideConfig.slidesToShow,

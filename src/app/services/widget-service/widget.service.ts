@@ -24,9 +24,14 @@ export class WidgetService {
 
   updateData(data: WidgetUiMode, widget: WeatherWidget) {
     Object.assign(widget, {
-      weatherData: data, name: data.name, main: {
-        temp: data.main.temp, temp_min: data.main.temp_min, temp_max: data.main.temp_max,
-      }, flag: true
+      weatherData: data,
+      name: data.name,
+      main: {
+        temp: data.main.temp,
+        temp_min: data.main.temp_min,
+        temp_max: data.main.temp_max,
+      },
+      flag: true
     });
   }
 
@@ -34,9 +39,14 @@ export class WidgetService {
     weatherWidgets.forEach((item) => {
       if (item.weatherData != null) {
         Object.assign(item, {
-          weatherData: null, name: '', main: {
-            temp: 0, temp_min: 0, temp_max: 0,
-          }, flag: false,
+          weatherData: null,
+          name: '',
+          main: {
+            temp: 0,
+            temp_min: 0,
+            temp_max: 0,
+          },
+          flag: false,
         })
       }
     })
@@ -46,9 +56,14 @@ export class WidgetService {
     weatherWidgets.forEach((item) => {
       if (item.id === id) {
         Object.assign(item, {
-          weatherData: null, name: '', main: {
-            temp: 0, temp_min: 0, temp_max: 0,
-          }, flag: false,
+          weatherData: null,
+          name: '',
+          main: {
+            temp: 0,
+            temp_min: 0,
+            temp_max: 0,
+          },
+          flag: false,
         })
       }
     })
@@ -67,7 +82,7 @@ export class WidgetService {
     return slideConfig;
   }
 
-  disabledButtons(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton) {
+  removeLast(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton) {
     if (weatherWidgets.length > showWidget) {
       weatherWidgets.length -= 1;
     }
@@ -78,7 +93,7 @@ export class WidgetService {
     }
   }
 
-  delete(weatherWidgets: WeatherWidget[], id: number, showWidget: number, btnRight: ElementRef, btnLeft: ElementRef, removeLast: MatButton, snackBar : MatSnackBar) {
+  deleteWidget(weatherWidgets: WeatherWidget[], id: number, showWidget: number, btnRight: ElementRef, btnLeft: ElementRef, removeLast: MatButton, snackBar : MatSnackBar) {
     if (weatherWidgets.length > showWidget) {
       weatherWidgets.forEach((widget, index) => {
         if (widget.id === id) {
