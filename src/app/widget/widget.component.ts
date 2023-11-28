@@ -172,6 +172,7 @@ export class WidgetComponent implements OnInit {
       this.removeLastBtn,
       this.snackBar,
     );
+    this.setLocalStorage();
   }
 
   nextSlide() {
