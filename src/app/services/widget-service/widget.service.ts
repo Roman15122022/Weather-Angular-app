@@ -82,7 +82,7 @@ export class WidgetService {
     return slideConfig;
   }
 
-  removeLast(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton) {
+  removeLast(showWidget: number, weatherWidgets: WeatherWidget[], btnLeft: ElementRef, btnRight: ElementRef, removeLast: MatButton, snackBar : MatSnackBar) {
     if (weatherWidgets.length > showWidget) {
       weatherWidgets.length -= 1;
     }
@@ -90,6 +90,7 @@ export class WidgetService {
       removeLast.color = undefined;
       btnLeft.nativeElement.classList.add('display_none');
       btnRight.nativeElement.classList.add('display_none');
+      snackBar.open(`You can't keep less than ${showWidget} widgets.`, 'Done', {duration: 2000});
     }
   }
 
@@ -129,6 +130,13 @@ export class WidgetService {
       removeLast.color = 'warn';
       btnLeft.nativeElement.classList.remove('display_none');
       btnRight.nativeElement.classList.remove('display_none');
+    }
+  }
+  statusBtn(showWidget: number,weatherWidgets: WeatherWidget[], removeLast: MatButton,btnLeft: ElementRef, btnRight: ElementRef){
+    if (weatherWidgets.length === showWidget) {
+      removeLast.color = undefined;
+      btnLeft.nativeElement.classList.add('display_none');
+      btnRight.nativeElement.classList.add('display_none');
     }
   }
 }

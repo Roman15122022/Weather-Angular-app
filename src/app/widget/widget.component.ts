@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, AfterViewInit, ViewChild} from '@angular/core';
 import {WeatherWidget} from "../interfaces/weatherwidget";
 import {WidgetUiMode} from "./WidgetUiMode";
 import {LocalStorageService} from "../services/loacalstorage-service/localstorage.service";
@@ -18,7 +18,7 @@ import {FormControl} from "@angular/forms";
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss'],
 })
-export class WidgetComponent implements OnInit {
+export class WidgetComponent implements OnInit , AfterViewInit {
   weatherWidgets: WeatherWidget[] = Array.from({length: 6}, () => new WidgetUiMode({} as WeatherWidget));
   @ViewChild('slickModal', {static: true}) slickModal!: SlickCarouselComponent;
   @ViewChild('removeLastBtn') removeLastBtn!: MatButton;
@@ -73,6 +73,9 @@ export class WidgetComponent implements OnInit {
     this.localStorage();
     this.runWatcher();
     this.updateWeather();
+  }
+  ngAfterViewInit() {
+    this.statusButtons();
   }
 
   updateWeather() {
@@ -138,7 +141,15 @@ export class WidgetComponent implements OnInit {
     this.widgetService.resetWidget(this.weatherWidgets);
     this.resetBtn.color = undefined;
   }
-
+  statusButtons(){
+    this.widgetService.statusBtn(
+      this.slideConfig.slidesToShow,
+      this.weatherWidgets,
+      this.removeLastBtn,
+      this.btnLeft,
+      this.btnRight,
+      );
+  }
   addWidget() {
     this.widgetService.activeButtons(
       this.slideConfig.slidesToShow,
@@ -147,6 +158,7 @@ export class WidgetComponent implements OnInit {
       this.btnLeft,
       this.removeLastBtn,
     );
+    this.setLocalStorage();
   }
 
   removeLastWidget() {
@@ -156,7 +168,9 @@ export class WidgetComponent implements OnInit {
       this.btnRight,
       this.btnLeft,
       this.removeLastBtn,
+      this.snackBar,
     );
+    this.setLocalStorage();
   }
   resetThisWidget(id: number) {
     this.widgetService.resetThisWidget(this.weatherWidgets, id);
