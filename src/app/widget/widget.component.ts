@@ -1,10 +1,10 @@
-import {Component, ElementRef, HostListener, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, AfterViewInit, ViewChild, OnDestroy} from '@angular/core';
 import {WeatherWidget} from "../interfaces/weatherwidget";
 import {WidgetUiMode} from "./WidgetUiMode";
 import {LocalStorageService} from "../services/loacalstorage-service/localstorage.service";
 import {WIDGET_STORAGE_KEY, WidgetService} from "../services/widget-service/widget.service";
-import {interval, Observable, startWith} from "rxjs";
-import {map, switchMap} from "rxjs/operators";
+import {EMPTY, from, interval, mergeMap, Observable, startWith, Subscription, switchMap} from "rxjs";
+import {map} from "rxjs/operators";
 import {SlickCarouselComponent} from 'ngx-slick-carousel';
 import {MatButton} from "@angular/material/button";
 import {SlideConfig} from "../interfaces/slide-config";
@@ -18,7 +18,7 @@ import {FormControl} from "@angular/forms";
   templateUrl: './widget.component.html',
   styleUrls: ['./widget.component.scss'],
 })
-export class WidgetComponent implements OnInit , AfterViewInit {
+export class WidgetComponent implements OnInit , AfterViewInit, OnDestroy {
   weatherWidgets: WeatherWidget[] = Array.from({length: 6}, () => new WidgetUiMode({} as WeatherWidget));
   @ViewChild('slickModal', {static: true}) slickModal!: SlickCarouselComponent;
   @ViewChild('removeLastBtn') removeLastBtn!: MatButton;
@@ -28,10 +28,10 @@ export class WidgetComponent implements OnInit , AfterViewInit {
   @ViewChild('cityInput') cityInput!: ElementRef;
   INTERVAL: number = 3000;
   slideConfig: SlideConfig = this.widgetService.getConfigBySize();
-
   cityArray: string[] = [];
   filterOptions!: Observable<string[]>;
   formsControl = new FormControl('');
+  watcherSubscription!: Subscription;
 
   constructor(
     private storageService: LocalStorageService,
@@ -74,8 +74,12 @@ export class WidgetComponent implements OnInit , AfterViewInit {
     this.runWatcher();
     this.updateWeather();
   }
+
   ngAfterViewInit() {
     this.statusButtons();
+  }
+  ngOnDestroy() {
+    this.unsubscribeWatcher();
   }
 
   updateWeather() {
@@ -91,23 +95,25 @@ export class WidgetComponent implements OnInit , AfterViewInit {
 
   getWeather(id: number) {
     const currentWidget = this.weatherWidgets.find(item => item.id === id) || {} as WidgetUiMode;
+    if (!currentWidget.name) return;
 
-    this.widgetService.serviceData(currentWidget).subscribe(
-      data => {
+    this.widgetService.serviceData(currentWidget).subscribe({
+      next: (data) => {
         this.widgetService.updateData(data, currentWidget);
         this.setLocalStorage();
         setTimeout(() => {
           this.resetBtn.color = 'accent';
+          this.runWatcher();
         });
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         if (error.status === 404) {
           this.openSnackBar();
         } else {
           console.error('An error occurred while receiving weather data:', error.statusText);
         }
       }
-    );
+    });
   }
 
   openSnackBar() {
@@ -117,15 +123,28 @@ export class WidgetComponent implements OnInit , AfterViewInit {
   }
 
   runWatcher() {
-    for (const widget of this.weatherWidgets) {
-      interval(this.INTERVAL)
-        .pipe(
-          switchMap(() => this.widgetService.serviceData(widget)),
-          map(data => new WidgetUiMode(data))
-        ).subscribe(data => {
+    // Сначала отпишитесь от любой существующей подписки, чтобы избежать утечек памяти
+    this.unsubscribeWatcher();
+
+    // Создайте новую подписку
+    this.watcherSubscription = from(this.weatherWidgets)
+      .pipe(
+        mergeMap(widget => {
+          if (!widget.name) {
+            return EMPTY;
+          }
+
+          return interval(this.INTERVAL).pipe(
+            switchMap(() => this.widgetService.serviceData(widget)),
+            map(data => new WidgetUiMode(data)),
+            map(data => ({ data, widget }))
+          );
+        })
+      )
+      .subscribe(({ data, widget }) => {
         this.widgetService.updateData(data, widget);
+        console.log(data);
       });
-    }
   }
 
   localStorage() {
@@ -141,15 +160,17 @@ export class WidgetComponent implements OnInit , AfterViewInit {
     this.widgetService.resetWidget(this.weatherWidgets);
     this.resetBtn.color = undefined;
   }
-  statusButtons(){
+
+  statusButtons() {
     this.widgetService.statusBtn(
       this.slideConfig.slidesToShow,
       this.weatherWidgets,
       this.removeLastBtn,
       this.btnLeft,
       this.btnRight,
-      );
+    );
   }
+
   addWidget() {
     this.widgetService.activeButtons(
       this.slideConfig.slidesToShow,
@@ -172,6 +193,7 @@ export class WidgetComponent implements OnInit , AfterViewInit {
     );
     this.setLocalStorage();
   }
+
   resetThisWidget(id: number) {
     this.widgetService.resetThisWidget(this.weatherWidgets, id);
   }
@@ -200,5 +222,11 @@ export class WidgetComponent implements OnInit , AfterViewInit {
   private _FILTER(value: string): string[] {
     const searchValue = value.toLowerCase();
     return this.cityArray.filter(option => option.toLowerCase().includes(searchValue));
+  }
+
+  private unsubscribeWatcher() {
+    if (this.watcherSubscription) {
+      this.watcherSubscription.unsubscribe();
+    }
   }
 }

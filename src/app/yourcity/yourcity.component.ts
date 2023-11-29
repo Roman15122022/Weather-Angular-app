@@ -1,12 +1,12 @@
-  import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {YourCityService} from "../services/yourcity-service/yourcity.service";
-import {interval, startWith} from 'rxjs';
+import {interval, startWith, Subscription} from 'rxjs';
 import {BackgroundFactory} from "../factories/factoryclassYourCity";
 import {BlackOrWhite, PeriodOfDay} from "../enums/enumYourCity";
 import {CityData} from "../interfaces/city-data";
 import {CITY_STORAGE_KEY} from "../services/yourcity-service/yourcity.service";
 import {LocalStorageService} from "../services/loacalstorage-service/localstorage.service";
-import {CityService} from "../services/city-srvice/city.service";
+
 
 
 @Component({
@@ -14,7 +14,7 @@ import {CityService} from "../services/city-srvice/city.service";
   templateUrl: './yourcity.component.html',
   styleUrls: ['./yourcity.component.scss']
 })
-export class YourCityComponent implements OnInit {
+export class YourCityComponent implements OnInit, OnDestroy {
 
   cityData: CityData = {
     name: "",
@@ -34,6 +34,7 @@ export class YourCityComponent implements OnInit {
   TIMER: number = 5;
   periodOfDay: PeriodOfDay = PeriodOfDay.DAY;
   blackOrWhite: BlackOrWhite = BlackOrWhite.WHITE;
+  private subscriptions: Subscription[] = [];
 
   constructor(private yourCityService: YourCityService,
               private storageService: LocalStorageService,) {
@@ -43,14 +44,18 @@ export class YourCityComponent implements OnInit {
     setTimeout(() => this.runWatcher(), this.TIMER);
     this.yourCityService.getCoords();
   }
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
   runWatcher() {
-    interval(this.INTERVAL_UPDATE)
+    const watcher$ = interval(this.INTERVAL_UPDATE)
       .pipe(startWith(this.ZERO))
       .subscribe(() => {
         this.setBackgroundBasedOnTime();
         this.getLocation();
       })
+    this.subscriptions.push(watcher$);
   }
 
   getLocation() {
