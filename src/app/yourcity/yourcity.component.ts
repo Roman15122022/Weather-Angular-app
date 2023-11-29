@@ -61,6 +61,7 @@ export class YourCityComponent implements OnInit, OnDestroy {
   getLocation() {
     this.yourCityService.getData(this.storageService.getItem(CITY_STORAGE_KEY))
       .subscribe((data) => {
+        console.log(data)
         this.cityData.name = data.name;
         this.cityData.weather = data.weather;
         this.cityData.weather[0].description = data.weather[0].description;
