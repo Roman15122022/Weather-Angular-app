@@ -13,6 +13,6 @@ export class LocalStorageService {
   }
 
   resetItem(key: string) {
-    localStorage.removeItem(key)
+    localStorage.removeItem(key);
   }
 }

@@ -23,6 +23,7 @@
 }
 
 .widget-item {
+  position: relative;
   text-align: center;
   align-items: center;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
@@ -36,12 +37,47 @@
   margin-top: 15px;
   text-transform: uppercase;
   font-size: 16px;
-  color: black;
+}
+
+.control__btn {
+  position: absolute;
+  display: flex;
+  right: 6%;
+  top: 3%;
+  opacity: 0;
+  transition: opacity .1s linear;
+}
+
+.icon-delete {
+  font-size: 18px;
+  cursor: pointer;
+  transition: tranform .2s linear;
+}
+
+.icon-edit {
+  font-size: 16px;
+  cursor: pointer;
+  transition: tranform .2s linear;
+}
+
+.icon-delete:hover {
+  color: red;
+  transform: scale(150%);
+}
+
+.icon-edit:hover {
+  color: #41ff02;
+  transform: scale(150%);
+}
+
+.widget:hover
+.control__btn {
+  opacity: 1;
 }
 
 .cityName {
+  margin-top: 3%;
   font-size: 16px;
-  color: black;
 }
 
 .icon {
@@ -100,54 +136,35 @@
   display: none;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn {
+  margin-top: 35%;
   font-size: 100px;
   font-weight: lighter;
   border-radius: 50%;
   border: none;
-  padding: 0 28px;
   color: #fff;
   background-color: #3498db;
   cursor: pointer;
-  margin-top: 35%;
+  padding: 19% 11.5%;;
+  text-align: center;
+  transition: all .2s linear;
 }
 
 .btn:hover {
-  transition: all .3s linear;
-  background-color: #ff5733;
+  background-color: #ff4081;
   rotate: 90deg;
 }
 
-.input {
-  margin-top: 30%;
-  padding: 5px;
+.form-field {
+  margin-top: 15%;
+  height: 80px;
   width: 80%;
-  border: 2px solid #3498db;
-  border-radius: 5px;
-  font-size: 16px;
-  color: #333;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.input:focus {
-  border-color: #ff5733;
-}
-
-.inputBtn {
-  margin-top: 15px;
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.inputBtn:hover {
-  background-color: #ff5733;
 }
 
 .controlBtnCon {
@@ -172,7 +189,14 @@
 
 
 @media (max-width: 1200px) {
-  .slick-slider{
+  .slick-slider {
     width: 100%;
   }
+}
+
+@media (max-width: 500px) {
+  .container {
+    margin-top: 100px;
+  }
+
 }

@@ -7,14 +7,15 @@ import {YourCityComponent} from "./yourcity/yourcity.component";
 
 const routes: Routes = [
   {
-    path: '', component: LayoutSiteComponent,
+    path: '',
+    component: LayoutSiteComponent,
     children: [
-      {path: '', redirectTo: '/home', pathMatch: 'full'},
-      {path: 'home', component: YourCityComponent},
-      {path: 'widgets', component: WidgetComponent}
-    ]
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: YourCityComponent },
+      { path: 'widgets', component: WidgetComponent },
+    ],
   },
-]
+];
 
 
 @NgModule({
