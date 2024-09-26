@@ -1,6 +1,11 @@
 
-mat-drawer {
-  width: 200px;
+.mat-drawer {
+  width: 13rem;
+  height: 92vh;
+}
+
+.mat-toolbar {
+  height: 8vh;
 }
 
 .active {
@@ -37,5 +42,16 @@ mat-drawer {
   height: 100%;
 }
 
-/*theme*/
 
+@media (max-width: 500px) {
+  .mat-toolbar {
+    height: 8vh;
+  }
+  .mat-drawer {
+    height: 18vh;
+    width: 10rem;
+  }
+  .logo {
+    font-size: 18px;
+  }
+}

@@ -9,15 +9,30 @@
       <ngx-slick-carousel #slickModal="slick-carousel"
                           [config]="slideConfig"
                           class="carousel mt-3">
-        <div *ngFor="let widget of weatherWidgets" class="slide" ngxSlickItem>
+        <div *ngFor="let widget of weatherWidgets; let i = index" class="slide" ngxSlickItem>
           <div class="widget">
             <div class="widget-item">
               <div *ngIf="!widget.main.temp" class="addCity">Add city</div>
-              <button (click)="showInput(widget.id)" *ngIf="widget.flag && !widget.main.temp" class="btn">+</button>
+              <div *ngIf="widget.main.temp" class="control__btn">
+                <div (click)="resetThisWidget(widget.id)">
+                  <mat-icon class="icon-edit">edit</mat-icon>
+                </div>
+                <div (click)="deleteThisWidget(widget.id)">
+                  <mat-icon class="icon-delete">clear</mat-icon>
+                </div>
+              </div>
+              <div class="button-container">
+                <div (click)="showInput(widget.id)" *ngIf="widget.flag && !widget.main.temp" class="btn">+</div>
+              </div>
               <form *ngIf="!widget.flag">
-                <input [(ngModel)]="widget.name" class="input" name="cityName" placeholder="Enter a city name"
-                       type="text">
-                <button (click)="getWeather(widget.id)" class="inputBtn" type="button">Get Weather</button>
+                <mat-form-field class="form-field" color="accent">
+                  <input (keyup.enter)="getWeather(widget.id)" #cityInput [(ngModel)]="widget.name" [formControl]="formsControl" [matAutocomplete]="auto" class="input"
+                         matInput name="cityName" placeholder="Enter city name" type="text">
+                  <mat-autocomplete #auto autoActiveFirstOption>
+                    <mat-option *ngFor="let city of filterOptions | async" [value]="city">{{city}}</mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <button (click)="getWeather(widget.id)" color="accent" class="inputBtn" type="button" mat-raised-button>Get Weather</button>
               </form>
               <div *ngIf="widget.weatherData">
                 <h2 class="cityName">{{widget.name | uppercase}}</h2>
@@ -52,8 +67,11 @@
       </div>
     </div>
     <div class="controlBtnCon">
-      <button #removeLastBtn (click)="removeLastWidget()" class="control-btn" color="warn" mat-raised-button>Remove Last</button>
-      <button #resetBtn (click)="resetLocalStorage()" class="control-btn" color="accent" mat-raised-button>Reset</button>
+      <button #removeLastBtn (click)="removeLastWidget()" class="control-btn" color="warn" mat-raised-button>Remove
+        Last
+      </button>
+      <button #resetBtn (click)="resetLocalStorage()" class="control-btn" mat-raised-button>Reset
+      </button>
       <button (click)="addWidget()" class="control-btn" color="primary" mat-raised-button>Add Widget</button>
     </div>
   </div>
